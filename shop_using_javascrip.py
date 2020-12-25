@@ -14,7 +14,9 @@ def application(request):
         	}
            	
            	function remove1(){
+              var quantity = document.getElementById('que').value;
            		document.getElementById('pro1Disp').innerHTML="";
+              document.getElementById('que').value="";
            	}
 
 
@@ -25,7 +27,9 @@ def application(request):
         	}
            	
            	function remove2(){
-           		document.getElementById('pro2Disp').innerHTML="";
+            var quantity2 = document.getElementById('que2').value;
+            document.getElementById('que2').value="";
+           	document.getElementById('pro2Disp').innerHTML="";
            	}
 
 
@@ -37,6 +41,8 @@ def application(request):
            	
            	function remove3(){
            		document.getElementById('pro3Disp').innerHTML="";
+              var quantity3 = document.getElementById('que3').value;
+              document.getElementById('que3').value="";
            	}
 
 
@@ -47,6 +53,10 @@ def application(request):
            	
            	function remove4(){
            		document.getElementById('pro4Disp').innerHTML="";
+               var quantity4 = document.getElementById('que4').value;
+              document.getElementById('que4').value="";
+
+
            	}
 
 
@@ -57,6 +67,9 @@ def application(request):
            	
            	function remove5(){
            		document.getElementById('pro5Disp').innerHTML="";
+              var quantity5 = document.getElementById('que5').value;
+              document.getElementById('que5').value="";
+
            	}
         </script>
 
