@@ -96,7 +96,7 @@ def application(request):
         }); 
         </script>
 
-        <center><h1>www.Shop.com</h1></center>
+        <center><h1<b>www.Shop.com</b></h1></center>
         </head>
         <body bgcolor="cyan">
         <div id="hel">
