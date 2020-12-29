@@ -29,7 +29,6 @@ def application(request):
                         });
                     });
 
-
                     $("#pro2").click(function()
                     { 
                         var quantity = $('#que2').val();
@@ -45,7 +44,6 @@ def application(request):
                             $("#pro2Disp").empty();
                          });
                     });
-
 
                     $("#pro3").click(function()
                     { 
@@ -63,7 +61,6 @@ def application(request):
                          });
                     });
 
-
                     $("#pro4").click(function()
                     { 
                         var quantity = $('#que4').val();
@@ -79,7 +76,6 @@ def application(request):
                             $("#pro4Disp").empty();
                          });
                     });
-
 
                     $("#pro5").click(function()
                     { 
@@ -97,9 +93,6 @@ def application(request):
                          });
                     });
                 }
-
-
-                
         }); 
         </script>
 
