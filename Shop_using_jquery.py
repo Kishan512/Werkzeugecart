@@ -23,7 +23,6 @@ def application(request):
                         var html ='<input type="button" id="remove1" value="Remove"><br><br>'
                         $("#pro1Disp").append(html) 
 
-
                         $("#remove1").click(function(){
                             $("#que").val("");
                             $("#pro1Disp").empty();
@@ -104,7 +103,7 @@ def application(request):
         }); 
         </script>
 
-        <center><h1>Shop.com</h1></center>
+        <center><h1>www.Shop.com</h1></center>
         </head>
         <body bgcolor="cyan">
         <div id="hel">
