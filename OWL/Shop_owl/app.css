@@ -1,0 +1,23 @@
+.task-list {
+  width: 700px;
+  margin: 50px auto;
+  background: aliceblue;
+  padding: 20px;
+}
+
+.task {
+  font-size: 18px;
+  color: #111111;
+  padding: 10px;
+  margin-left: 60px;
+}
+
+.addtocart{
+	margin-left: 80px;
+}
+.buttonheading{
+	margin-left: 80px;	
+}
+.pricetag{
+	margin-left: 50px;
+}
