@@ -1,14 +1,17 @@
 .task-list {
-  width: 700px;
-  margin: 50px auto;
-  background: aliceblue;
-  padding: 20px;
+  width: 80%;
+  background: #bcc79c;
+  float: left;
+  height: 600px;
+  text-align: center;
+
 }
 
 .task {
   font-size: 18px;
   color: #111111;
   padding: 10px;
+  text-align: center;
   margin-left: 60px;
 }
 
@@ -20,4 +23,21 @@
 }
 .pricetag{
 	margin-left: 50px;
+}
+.split2{
+	margin-left: 80%;
+	width: 20%;
+	height: 600px;
+	text-align: center;
+	background-color: aliceblue;
+}
+#nav{
+	background-color: green;
+	text-align: center;
+	 padding: 15px;
+	height: 50px;
+}
+
+#search{
+	margin-top:20px;
 }
