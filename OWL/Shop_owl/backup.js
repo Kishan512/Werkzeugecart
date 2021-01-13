@@ -5,12 +5,11 @@ const { useRef, useDispatch, useState, useStore } = owl.hooks;
 
 const actions = {
     addtocart({ state }, product_id) {
-        
         if (product_id && (!state.tasks.find(t => parseInt(t.product_id) == parseInt(product_id)))) {
                 const newTask = {
                         product_id: product_id,
                 };
-                console.log(newTask);
+                console.log(product_id);
                 state.tasks.push(newTask);
         }
     },
@@ -18,7 +17,7 @@ const actions = {
       const index = state.tasks.findIndex((t) => t.product_id == product_id);
       state.tasks.splice(index, 1);
     },
-};
+  };
 
 // -------------------------------------------------------------------------
 // App Component
@@ -31,22 +30,12 @@ const APP_TEMPLATE = xml /* xml */`
                     <div class="task-list" id="task-list">
 
                                 <center><input type="text" name="search" id="search" t-on-keyup="searchFunction()" placeholder="Search"/></center><br></br><br></br>
-                                <table id="tbl">     
-                                        <h2>Products</h2>            
+                                <table id="tbl">                 
                                     <t t-foreach="products" t-as="product" t-key="product.id">
                                             <div class="task" id="task">
-                                                    <tr bgcolor="white">
+                                                    <tr>
                                                                  <td><span id="sp"><t t-esc="product.Product_name"/></span></td>
                                                                  <td><span id="sp1" class="pricetag"><t t-esc="product.price"/></span></td>
-                                                                  <td><select name="qty" t-att-id="product.id" type="number">
-
-                                                                      <option value="1">1</option>
-
-                                                                      <option value="2">2</option>
-
-                                                                      <option value="3">3</option>
-
-                                                                    </select></td>
                                                                  <td><button type="button" t-att-id="product.id" class="addtocart" t-on-click="addtocart" >Add to cart</button></td>
                                                     </tr>
                                            </div>
@@ -55,44 +44,36 @@ const APP_TEMPLATE = xml /* xml */`
                     </div>
                     <div class="split2"> 
                     <h2>---Cart---</h2>
-                                    <table>
-                                        <t t-set="total" t-value="0"/>
+                                    <table >
+                                
                                             <t t-foreach="tasks" t-as="task" t-key="task.id">
                                                 <tr>
-                                                        <t t-set="total" t-value="total+products[task.product_id-1].price"/>
-                                                        <span><t t-esc="products[task.product_id-1].Product_name"/></span>
-                                                        <span class="cartProductName"><t t-esc="products[task.product_id-1].price"/></span><br></br>
-                                                        
+                                                        <td><span><t t-esc="products[task.product_id-1].Product_name"/></span></td>
+                                                        <td><span><t t-esc="products[task.product_id-1].price"/></span></td>
                                                         <td><span class="delete" t-att-id="task.product_id" t-on-click="deleteTask">🗑</span></td><br></br>
                                                 </tr>
                                             </t>
 
-
                                     </table>
-                                    
                               ---------------------------------------------------
-                              <span>Total:<t t-esc="total"/></span>
 
 
 
                                     <br></br>
-         
                     </div>
                 </div>`;
 
 
 
 
-const initialState = {
-    tasks: [],
-  };
 
+const tasks = [];
 
 class App extends Component {
      static template = APP_TEMPLATE;
      tasks = useStore((state) => state.tasks)
      dispatch = useDispatch();
-        addtocart(ev) { 
+        addtocart(ev) {
             if (ev.target.id) {
                 this.dispatch("addtocart", ev.target.id)
             }
@@ -122,7 +103,7 @@ class App extends Component {
         } 
 
         products = [
-                {
+                                     {
                     "id": 1,
                         "Product_name": "Shirt",
                         "price": 100
@@ -151,25 +132,19 @@ class App extends Component {
                     "id": 6,
                         "Product_name": "jarcy",
                         "price": 4000
-                },
-                {
-                    "id": 7,
-                        "Product_name": "Watch",
-                        "price": 250
                 }
             ];
 }
 
 function makeStore() {
-    const localState = window.localStorage.getItem("Shop");
-    const state = localState ? JSON.parse(localState) : initialState;
-    const store = new Store({ state, actions });
-    store.on("update", null, () => {
-        localStorage.setItem("Shop", JSON.stringify(store.state));
-    });
-    return store;
+  const localState = window.localStorage.getItem("todoapp");
+  const state = localState ? JSON.parse(localState) : this.tasks;
+  const store = new Store({ state, actions });
+  store.on("update", null, () => {
+    localStorage.setItem("todoapp", JSON.stringify(store.state));
+  });
+  return store;
 }
-
 // Setup code
 function setup() {
     owl.config.mode = "dev";

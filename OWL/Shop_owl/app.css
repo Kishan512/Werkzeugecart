@@ -2,7 +2,7 @@
   width: 80%;
   background: #bcc79c;
   float: left;
-  height: 600px;
+  height: 640px;
   text-align: center;
 
 }
@@ -18,6 +18,9 @@
 .addtocart{
 	margin-left: 80px;
 }
+.cartProductName{
+	margin-left: 3px;
+}
 .buttonheading{
 	margin-left: 80px;	
 }
@@ -27,7 +30,7 @@
 .split2{
 	margin-left: 80%;
 	width: 20%;
-	height: 600px;
+	height: 620px;
 	text-align: center;
 	background-color: aliceblue;
 }
@@ -40,6 +43,8 @@
 
 #search{
 	margin-top:20px;
+	width: 30%;
+	height: 30px;
 }
 #tbl{
 	margin-left: 25%;
