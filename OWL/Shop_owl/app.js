@@ -63,17 +63,9 @@ const APP_TEMPLATE = xml /* xml */`
                                                         <td><span class="delete" t-att-id="task.product_id" t-on-click="deleteTask">🗑</span></td><br></br>
                                                 </tr>
                                             </t>
-
-
                                     </table>
-                                    
                               ---------------------------------------------------
-                              <span>Total:<t t-esc="total"/></span>
-
-
-
-                                    <br></br>
-         
+                              <span>Total:<t t-esc="total"/></span><br></br>
                     </div>
                 </div>`;
 
@@ -165,7 +157,6 @@ function makeStore() {
     return store;
 }
 
-// Setup code
 function setup() {
     owl.config.mode = "dev";
     App.env.store = makeStore();
