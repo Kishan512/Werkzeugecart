@@ -20,9 +20,6 @@ const actions = {
     },
 };
 
-// -------------------------------------------------------------------------
-// App Component
-// -------------------------------------------------------------------------
 const APP_TEMPLATE = xml /* xml */`
                 <div>
                     <nav id="nav">
@@ -79,8 +76,6 @@ const APP_TEMPLATE = xml /* xml */`
          
                     </div>
                 </div>`;
-
-
 
 
 const initialState = {
