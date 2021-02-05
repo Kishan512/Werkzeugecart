@@ -10,12 +10,10 @@ from werkzeug.wrappers import Request, Response
 
 @Request.application
 def application(request):
-    html = open('index.html', 'r').read()
-    data = open('main.js', 'r').read()
+    html = open('index.html').read()
     
     response = Response(html)
     response.status = '200 OK'
-    response.headers['content-type'] = 'text/html';
     response.headers['content-type'] = 'text/js';
     return response
 
