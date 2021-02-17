@@ -4,9 +4,11 @@ const { xml } = owl.tags;
 import { Navbar } from "./navComponent.js";
 
 export class Signup extends Component {
+
   static components = { Navbar };
   static template = xml`<div>
                                 <Navbar/>
+                                    <div class="container mt-5">
                                     <h1>SignUp Here</h1>
                                     <form action="#">
                                         <div class="form-group">
@@ -35,7 +37,10 @@ export class Signup extends Component {
                                             </label>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form></div>`;
+                                    </form>
+                                    </div>
+                                    </div>`;
+
 }
 
     
