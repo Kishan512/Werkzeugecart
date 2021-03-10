@@ -4,7 +4,7 @@ const { xml } = owl.tags;
 import { Navbar } from "./navComponent.js";
 
 
-export class Home extends Component {
+export class HomeEngineer extends Component {
   static components = { Navbar };
   static template = xml`<div>   <Navbar/>
                                 <div class="mb-0 ml-5 mt-5">
