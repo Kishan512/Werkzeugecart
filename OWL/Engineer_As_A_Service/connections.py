@@ -18,10 +18,14 @@ class Connection():
             self.create_connection(self.db_name)
             user = '''CREATE TABLE users(
                 id SERIAL PRIMARY KEY,
+                role varchar NOT NULL ,
                 email varchar  NOT NULL unique,
                 password varchar NOT NULL,
+                address varchar NOT NULL,
                 session varchar,
-                mobile_no varchar NOT NULL
+                mobile_no varchar NOT NULL,
+                specialist varchar ,
+                experience varchar 
             );'''
             self.cr.execute(user);
         else:
@@ -41,11 +45,22 @@ class Connection():
         return self.cr.fetchone()
 
     def create_user(self, dictn):
-        user = """INSERT INTO users (email, password, mobile_no) VALUES ('%s', '%s', '%s')""" % (dictn['email'], dictn['password'], dictn['mobno']);
+        user = """INSERT INTO users (role, email, password, address, mobile_no) VALUES ('client','%s', '%s', '%s', '%s')""" % (dictn['email'], dictn['password'], dictn['address'], dictn['mobno'])
         self.cr.execute(user)
+    def create_user_engineer(self,data):
+        engineer = """INSERT INTO users (role, email, password, address, mobile_no, specialist, experience) VALUES ('engineer', '%s', '%s', '%s', '%s','%s', '%s')""" % (data['email'], data['password'], data['address'], data['mobno'], data['specialist'], data['experience'])
+        self.cr.execute(engineer)
 
     def user_exists(self, data):
         self.cr.execute("SELECT id FROM users WHERE email='%s' and password='%s'" % (data['email'], data['password']))
+        return self.cr.fetchone()
+
+    def get_user_role(self, data):
+        self.cr.execute("SELECT role FROM users WHERE email='%s' and password='%s'" % (data['email'], data['password']))
+        return self.cr.fetchone()
+
+    def get_user_role_session_val(self, data):
+        self.cr.execute("SELECT role FROM users WHERE session='%s'" % (data['session_id']))
         return self.cr.fetchone()
 
     def create_user_session(self, session_id, user_id):
@@ -56,5 +71,4 @@ class Connection():
         return self.cr.fetchone()
 
     def user_logout(self, data):
-        print(data)
         self.cr.execute("UPDATE users set session=null where session='%s'" % (data['session_id']))

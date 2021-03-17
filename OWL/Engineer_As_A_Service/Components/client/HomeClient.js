@@ -2,16 +2,14 @@ const { Component, mount } = owl;
 const { xml } = owl.tags;
 
 
-export class Engineers extends Component {
+export class HomeClient extends Component {
   static template = xml`<div>   
                                 <div class="mb-5 ml-5 mt-5">
                                 <div class="row">
-                                    <h1>Engineers list </h1> 
+                                    <h1>This is Home page Of client </h1> 
                                 </div>
                             </div>
                             </div>`;
-
-        
 }
 
     

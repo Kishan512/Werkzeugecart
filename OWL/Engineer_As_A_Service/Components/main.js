@@ -5,13 +5,21 @@ const { RouteComponent } = owl.router
 const { whenReady } = owl.utils;
 const { useRef, useDispatch, useState, useStore } = owl.hooks;
 
-import { HeaderComponent } from "./HeaderComponent.js";
-import { FooterComponent } from "./FooterComponent.js";
+import { HeaderComponent } from "./include/HeaderComponent.js";
+import { FooterComponent } from "./include/FooterComponent.js";
+
 import { Home } from "./HomeComponent.js";
 import { Signup } from "./signUpComponent.js";
+// engineer
+import { signup_engineer } from "./signup_engineer.js";
 import { Login } from "./LoginComponent.js";
-import { HomeAfterLogin } from "./HomeAfterLogin.js";
-import { Engineers } from "./Engineers.js";
+import { HomeEngineer } from "./engineer/HomeEngineer.js";
+import { Engineers } from "./engineer/Engineers.js";
+import { Jobs } from "./engineer/Job_list.js";
+import { Profile } from "./engineer/Profile_engineer.js";
+import { New_Jobs_engineer } from "./engineer/New_Jobs_engineer.js";
+// Client
+import { HomeClient } from "./client/HomeClient.js";
 
 
 
@@ -26,30 +34,23 @@ class home extends Component {
         </div>
     </div>`;
 
-        async willStart() {debugger
-            const session_id = document.cookie;
-            if(session_id){
-                const xhr = new window.XMLHttpRequest();
-                xhr.open('POST', '/session_validate');
-                xhr.send(JSON.stringify({'session_id': session_id}));
-                xhr.onload = async () => {
-                    const response = JSON.parse(xhr.response);
-                    if (response.valid === true) {
-                        this.env.bus.trigger('login_changed', {valid: true});
-                        this.env.router.navigate({to:'homeafterlogin'});
-                    }
-                };
-            }
-        }
-    }       
+}       
 
 
 const ROUTES = [
+    // Before Login
     { name: "home", path: "/", component: Home },
     { name: "signup", path: "/signup", component: Signup },
+    { name: "signup_engineer", path: "/signupEngineer", component: signup_engineer },
     { name: "login", path: "/login", component: Login },
+    // engineer
     { name: "engineers", path: "/engineers", component: Engineers },
-    { name: "homeafterlogin", path: "/home", component: HomeAfterLogin },
+    { name: "HomeEngineer", path: "/homee", component: HomeEngineer },
+    { name: "jobs", path: "/jobs", component: Jobs },
+    { name: "profile", path: "/profile", component: Profile },
+    { name: "new_jobs_engineer", path: "/new_jobs", component: New_Jobs_engineer },
+    // client
+    { name: "HomeClient", path: "/home", component: HomeClient },
 ];
 
 

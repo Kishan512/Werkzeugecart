@@ -7,11 +7,11 @@ export class Login extends Component {
     constructor() {
         super(...arguments);
         this.state = useState({
-            invalid: undefined,
+            invalid: undefined
         });
     }
 
-    OnLoginsubmit(ev){debugger
+    OnLoginsubmit(ev){
         const xhr = new window.XMLHttpRequest();
         xhr.open('POST', '/do_login');
         const formData = new FormData(ev.currentTarget);
@@ -19,6 +19,7 @@ export class Login extends Component {
         xhr.onload = async () => {
             
             const response = JSON.parse(xhr.response);
+            console.log(response.role);
             if (response.email === false)
             {
                 this.state.invalid = "email is wrong";
@@ -27,11 +28,29 @@ export class Login extends Component {
             {
                 this.state.invalid = "password is wrong";
             }
-            else(response.session_id) 
-            {
-                document.cookie = response.session_id;
-                this.env.bus.trigger('login_changed', {valid: true});
-                this.env.router.navigate({to:'homeafterlogin'});
+            else if(response.role === "engineer"){
+                document.cookie = `session_id=${response.session_id}`;
+                owl.session_info = {
+                    user_id: response.user_id,
+                    is_valid: response.is_valid,
+                    session_id: response.session_id,
+                    role: response.role
+                }
+                alert("engineer login")
+                this.env.bus.trigger('login_changed');
+                this.env.router.navigate({to:'HomeEngineer'});
+            }
+            else if(response.role === "client"){
+                document.cookie = `session_id=${response.session_id}`;
+                owl.session_info = {
+                    user_id: response.user_id,
+                    is_valid: response.is_valid,
+                    session_id: response.session_id,
+                    role: response.role
+                }
+                alert("client login")
+                this.env.bus.trigger('login_changed');
+                this.env.router.navigate({to:'HomeClient'});
             }
         };
     }
@@ -48,8 +67,8 @@ export class Login extends Component {
                     <label for="pwd">Password:</label>
                     <input type="password" class="form-control" name="password" placeholder="Enter password" id="pwd" required="true"/>
                 </div>
+                <div class="text text-danger"><t t-esc="state.invalid"/></div>
                 <button type="submit" class="btn btn-primary">Submit</button>
-                <t t-esc="state.invalid"/>
             </form>
         </div>
     </div>`;
