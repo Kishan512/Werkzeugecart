@@ -14,12 +14,14 @@ import { Signup } from "./signUpComponent.js";
 import { signup_engineer } from "./signup_engineer.js";
 import { Login } from "./LoginComponent.js";
 import { HomeEngineer } from "./engineer/HomeEngineer.js";
-import { Engineers } from "./engineer/Engineers.js";
 import { Jobs } from "./engineer/Job_list.js";
-import { Profile } from "./engineer/Profile_engineer.js";
+import { Engineer_profile } from "./engineer/Engineer_profile.js";
 import { New_Jobs_engineer } from "./engineer/New_Jobs_engineer.js";
 // Client
 import { HomeClient } from "./client/HomeClient.js";
+import { client_Engineer_list } from "./client/client_Engineer_list.js";
+import { Orders } from "./client/Orders.js";
+import { client_profile } from "./client/client_profile.js";
 
 
 
@@ -34,6 +36,23 @@ class home extends Component {
         </div>
     </div>`;
 
+    async willStart() {
+        // const cookieArr = document.cookie.split(";");
+        //     for(var i = 0; i < cookieArr.length; i++) {
+        //         var cookiePair = cookieArr[i].split("=");
+        //             const res = decodeURIComponent(cookiePair[1]);
+
+        //         const xhr = new window.XMLHttpRequest();
+        //         xhr.open('POST', '/do_fetch');
+        //         xhr.send(JSON.stringify({'session_id': res}));
+        //         xhr.onload = async () => {
+        //             const response = JSON.parse(xhr.response);
+        //             console.log(response.fetch_detail);
+        //             this.env.bus.trigger('client_engineer', {valid: response.fetch_detail});
+                    
+        //         }
+        //     }
+    }
 }       
 
 
@@ -44,14 +63,17 @@ const ROUTES = [
     { name: "signup_engineer", path: "/signupEngineer", component: signup_engineer },
     { name: "login", path: "/login", component: Login },
     // engineer
-    { name: "engineers", path: "/engineers", component: Engineers },
     { name: "HomeEngineer", path: "/homee", component: HomeEngineer },
     { name: "jobs", path: "/jobs", component: Jobs },
-    { name: "profile", path: "/profile", component: Profile },
+    { name: "Engineer_profile", path: "/profile", component: Engineer_profile },
     { name: "new_jobs_engineer", path: "/new_jobs", component: New_Jobs_engineer },
     // client
     { name: "HomeClient", path: "/home", component: HomeClient },
+    { name: "client_Engineer_list", path: "/engineerslist", component: client_Engineer_list },
+    { name: "Orders", path: "/orders", component: Orders },
+    { name: "client_profile", path: "/profile", component: client_profile },
 ];
+
 
 
 function makeEnvironment() {

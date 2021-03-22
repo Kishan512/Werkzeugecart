@@ -1,41 +1,21 @@
-const { Component, mount, useState } = owl;
+const { Component, mount,useState } = owl;
 const { xml } = owl.tags;
 
 
-export class client_Engineer_list extends Component {
-	 constructor() {
-        super(...arguments);
+export class Orders extends Component {
+	constructor() {
+        super(...arguments);debugger
         // this.env.bus.on('session_val', this, this.session_val);
         this.state = useState({
-            'engineer_id': users.engineer_list.engineer_id,
-            'email': users.engineer_list.email,
-            'specialist': users.engineer_list.specialist,
-            'mobile_no': users.engineer_list.mobile_no,
-            'experience': users.engineer_list.experience,
+            'engineer_id': orders.get_order_list.engineer_id,
+            'email': orders.get_order_list.email,
+            'specialist': orders.get_order_list.specialist,
+            'mobile_no': orders.get_order_list.mobile_no,
+            'experience': orders.get_order_list.experience,
         });
+        console.log(orders.get_order_list.engineer_id)
 
     }
-
-    async book_engineer(ev){debugger
-        console.log(this.state.email)
-        const xhr = new window.XMLHttpRequest();
-            xhr.open('POST', '/book_engineer');
-            xhr.send(JSON.stringify(this.state));
-            xhr.onload = async () => {
-                const response = JSON.parse(xhr.response);
-                if(response.book_engineer === "success"){
-                    this.env.router.navigate({to:'jobs'});
-                }
-                else{
-                    this.env.router.navigate({to:'homee'});
-                }
-               
-            }
-        }
-
-
-
-
 	static template = xml`<div class="container">  
                     <div class="mt-5 mb-5">
 					   <h1>Engineers list </h1> 
@@ -69,8 +49,6 @@ export class client_Engineer_list extends Component {
                     </div>
 					
 		</div>`;
-
-        
-}
+	}
 
     

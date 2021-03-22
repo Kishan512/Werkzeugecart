@@ -28,6 +28,16 @@ class Connection():
                 experience varchar 
             );'''
             self.cr.execute(user);
+
+            orders = '''CREATE TABLE orders(
+                id SERIAL PRIMARY KEY,
+                email varchar  NOT NULL unique,
+                mobile_no varchar NOT NULL,
+                specialist varchar ,
+                experience varchar 
+            );'''
+            self.cr.execute(orders);
+
         else:
             self.create_connection(self.db_name)
 
@@ -43,7 +53,7 @@ class Connection():
     def chk_pass(self, data):
         self.cr.execute("SELECT id FROM users WHERE password='%s'" % (data['password']))
         return self.cr.fetchone()
-
+        
     def create_user(self, dictn):
         user = """INSERT INTO users (role, email, password, address, mobile_no) VALUES ('client','%s', '%s', '%s', '%s')""" % (dictn['email'], dictn['password'], dictn['address'], dictn['mobno'])
         self.cr.execute(user)
@@ -72,3 +82,15 @@ class Connection():
 
     def user_logout(self, data):
         self.cr.execute("UPDATE users set session=null where session='%s'" % (data['session_id']))
+
+    def get_engineer_list(self):
+        self.cr.execute("SELECT * FROM users")
+        return self.cr.fetchall()
+
+    def book_engineer(self,data):
+        print(data['engineer_id'])
+        book_engineer = """INSERT INTO orders (email, mobile_no, specialist, experience) VALUES ('%s', '%s', '%s', '%s')""" % (data['email'], data['mobile_no'], data['specialist'], data['experience'])
+        self.cr.execute(book_engineer)
+    def get_order_list(self):
+        self.cr.execute("SELECT * FROM orders")
+        return self.cr.fetchall()

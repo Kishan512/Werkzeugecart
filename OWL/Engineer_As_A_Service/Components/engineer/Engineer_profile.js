@@ -3,7 +3,7 @@ const { xml } = owl.tags;
 
 
 
-export class Profile extends Component {
+export class Engineer_profile extends Component {
   static template = xml`<div>   
             <div class="mb-5 ml-5 mt-5">
                 <div class="row">

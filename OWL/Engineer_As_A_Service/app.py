@@ -70,11 +70,22 @@ class myHandler(SimpleHTTPRequestHandler):
             data = json.loads(data)
             user_data = self.db_connection.user_logout(data)
             return self.wfile.write(json.dumps({'logout': "success"}).encode())
+        elif self.path == '/book_engineer':
+            data = self.rfile.read(int(self.headers.get('Content-Length')))
+            data = json.loads(data)
+            book_engineer = self.db_connection.book_engineer(data)
+            return self.wfile.write(json.dumps({'book_engineer': "success"}).encode())
+
+
+           
+            
+
+     
 
 
 
     def do_GET(self):
-        if self.path in ['/', '/signup', '/signupEngineer', '/login', '/home', '/engineers', '/jobs', '/new_jobs']:
+        if self.path in ['/', '/signup', '/signupEngineer', '/login', '/homee', '/engineers', '/jobs', '/new_jobs', '/profile', '/home', '/engineerslist', '/engineerslist','/orders']:
             with open('index.html') as f:
                 Cookie = self.headers.get('Cookie')
                 session_id = False  
@@ -89,6 +100,8 @@ class myHandler(SimpleHTTPRequestHandler):
                         session_id = session_cookie.get('session_id')[0]
                         user = self.db_connection.session_validate({'session_id': session_id})
                         role = self.db_connection.get_user_role_session_val({'session_id': session_id})
+                        engineer_list = self.db_connection.get_engineer_list()
+                        get_order_list = self.db_connection.get_order_list()
 
                         if user and len(user):
                             session_info = {
@@ -97,7 +110,23 @@ class myHandler(SimpleHTTPRequestHandler):
                                 'session_id': session_id,
                                 'role': role[0]
                             }
+                            engineer_list={
+                                'engineer_id': engineer_list[0][0],
+                                'email': engineer_list[0][1],
+                                'specialist': engineer_list[0][2],
+                                'mobile_no': engineer_list[0][3],
+                                'experience': engineer_list[0][4],
+                            }
+                            order_list={
+                                'engineer_id': get_order_list[0][0],
+                                'email': get_order_list[0][1],
+                                'specialist': get_order_list[0][2],
+                                'mobile_no': get_order_list[0][3],
+                                'experience': get_order_list[0][4],
+                            }
                 html = html.replace('$session_info', json.dumps(session_info))
+                html = html.replace('$engineer_list', json.dumps(engineer_list))
+                html = html.replace('$get_order_list', json.dumps(get_order_list))
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()

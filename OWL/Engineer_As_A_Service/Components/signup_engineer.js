@@ -51,15 +51,16 @@ export class signup_engineer extends Component {
     _onKeyUpPwd(ev) {
         this._checkPwd();
     }
-    
-    
+    signup_client(ev){
+         this.env.router.navigate({ to: 'signup' });
+    }
 
-   static template = xml`<div>
+    static template = xml`<div>
         <div class="container mt-5">
         <h1>SignUp Here</h1>
         <div class="mb-5 mt-5">
         <label for="engineer_signup">Are you want to join as a engineer ? </label>
-        <button type="button" class="btn btn-primary ml-2" t-on-click="signup_engineer">Customer</button>
+        <button type="button" class="btn btn-primary ml-2" t-on-click="signup_client">Customer</button>
         </div>
         <form action="#" t-on-submit.prevent="onFormSubmit">
             <div id="engineer">

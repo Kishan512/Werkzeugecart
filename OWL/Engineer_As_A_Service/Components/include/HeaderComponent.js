@@ -10,14 +10,17 @@ export class HeaderComponent extends Component {
         // this.env.bus.on('session_val', this, this.session_val);
         this._updateState();
     }
-    _updateState() {debugger
+
+
+
+
+    _updateState() {
         this.state = useState({
             user_id: owl.session_info.user_id,
             is_valid: owl.session_info.is_valid,
             session_id: owl.session_info.session_id,
             role: owl.session_info.role
         });
-        console.log(this.state.role)
     }
     // before loging
     Home(ev){
@@ -39,8 +42,8 @@ export class HeaderComponent extends Component {
     jobs(ev){
          this.env.router.navigate({ to: 'jobs' });
     }
-    profile(ev){
-         this.env.router.navigate({ to: 'profile' });
+    Engineer_profile(ev){
+         this.env.router.navigate({ to: 'Engineer_profile' });
     }
     new_jobs_engineer(ev){
          this.env.router.navigate({ to: 'new_jobs_engineer' });
@@ -49,7 +52,30 @@ export class HeaderComponent extends Component {
     homeclient(ev){
          this.env.router.navigate({ to: 'HomeClient' });
     }
-    
+    client_Engineer_list(ev){
+        // const cookieArr = document.cookie.split(";");
+        //     for(var i = 0; i < cookieArr.length; i++) {
+        //         var cookiePair = cookieArr[i].split("=");
+        //             const res = decodeURIComponent(cookiePair[1]);
+
+        //         const xhr = new window.XMLHttpRequest();
+        //         xhr.open('POST', '/do_fetch');
+        //         xhr.send(JSON.stringify({'session_id': res}));
+        //         xhr.onload = async () => {
+        //             const response = JSON.parse(xhr.response);
+        //             console.log(response.fetch_detail);
+        //             this.env.bus.trigger('client_engineer', {valid: response.fetch_detail});
+                    
+        //         }
+        //     }
+        this.env.router.navigate({ to: 'client_Engineer_list' });
+    }
+    Orders(ev){
+         this.env.router.navigate({ to: 'Orders' });
+    }
+    client_profile(ev){
+         this.env.router.navigate({ to: 'client_profile' });
+    }
     async logout(ev){
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/do_logout');
@@ -69,8 +95,9 @@ export class HeaderComponent extends Component {
                 }
             }
         }
+  
     
-    _loginChanged (ev) {debugger
+    _loginChanged (ev) {
         this._updateState();
     }
    
@@ -86,14 +113,11 @@ export class HeaderComponent extends Component {
                             <li class="nav-item active">
                                <button class="nav-link btn-warning mr-2" t-on-click="HomeEngineer">Home</button>
                             </li>
-                             <li class="nav-item">
-                                <button class="nav-link btn-warning mr-2" href="#" t-on-click="engineers">Engineers</button>
-                            </li>
                             <li class="nav-item">
                                 <button class="nav-link btn-warning mr-2" href="#" t-on-click="jobs">Jobs</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link btn-warning mr-2" href="#" t-on-click="profile">Profile</button>
+                                <button class="nav-link btn-warning mr-2" href="#" t-on-click="Engineer_profile">Profile</button>
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link btn-warning mr-2" href="#" t-on-click="new_jobs_engineer">New Jobs</button>
@@ -106,6 +130,15 @@ export class HeaderComponent extends Component {
                     <a class="navbar-brand" t-on-click="homeclient">LOGO</a>
                         <li class="nav-item active">
                            <button class="nav-link btn-warning mr-2" t-on-click="homeclient">Home</button>
+                        </li>
+                        <li class="nav-item">
+                                <button class="nav-link btn-warning mr-2" href="#" t-on-click="client_Engineer_list">Engineers</button>
+                        </li>
+                        <li class="nav-item">
+                                <button class="nav-link btn-warning mr-2" href="#" t-on-click="Orders">Orders</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link btn-warning mr-2" href="#" t-on-click="client_profile">Profile</button>
                         </li>
                         <li class="nav-item">
                             <button class="nav-link btn-warning ml-3" href="#" t-on-click="logout">Logout</button>
