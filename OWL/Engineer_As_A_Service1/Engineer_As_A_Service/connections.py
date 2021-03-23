@@ -84,13 +84,18 @@ class Connection():
         self.cr.execute("UPDATE users set session=null where session='%s'" % (data['session_id']))
 
     def get_engineer_list(self):
-        self.cr.execute("SELECT * FROM users")
+        self.cr.execute("SELECT * FROM users WHERE role='engineer'")
         return self.cr.fetchall()
 
+    def get_engineer_info(self,data):
+        print(data['id'])
+        self.cr.execute("SELECT * FROM users WHERE id=%s" % (data['id']))
+        return self.cr.fetchone()    
+
     def book_engineer(self,data):
-        print(data['engineer_id'])
-        book_engineer = """INSERT INTO orders (email, mobile_no, specialist, experience) VALUES ('%s', '%s', '%s', '%s')""" % (data['email'], data['mobile_no'], data['specialist'], data['experience'])
+        book_engineer = """INSERT INTO orders (email, mobile_no, specialist, experience) VALUES ('%s', '%s', '%s', '%s')""" % (data[2], data[6], data[7], data[8])
         self.cr.execute(book_engineer)
+
     def get_order_list(self):
         self.cr.execute("SELECT * FROM orders")
         return self.cr.fetchall()

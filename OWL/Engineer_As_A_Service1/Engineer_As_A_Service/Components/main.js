@@ -14,7 +14,6 @@ import { Signup } from "./signUpComponent.js";
 import { signup_engineer } from "./signup_engineer.js";
 import { Login } from "./LoginComponent.js";
 import { HomeEngineer } from "./engineer/HomeEngineer.js";
-import { Jobs } from "./engineer/Job_list.js";
 import { Engineer_profile } from "./engineer/Engineer_profile.js";
 import { New_Jobs_engineer } from "./engineer/New_Jobs_engineer.js";
 // Client
@@ -26,7 +25,7 @@ import { client_profile } from "./client/client_profile.js";
 
 
 class home extends Component {
-   static components = {RouteComponent,HeaderComponent,FooterComponent };
+   static components = {RouteComponent,HeaderComponent,FooterComponent};
 
    static template = xml`<div>
         <div>
@@ -64,7 +63,6 @@ const ROUTES = [
     { name: "login", path: "/login", component: Login },
     // engineer
     { name: "HomeEngineer", path: "/homee", component: HomeEngineer },
-    { name: "jobs", path: "/jobs", component: Jobs },
     { name: "Engineer_profile", path: "/profile", component: Engineer_profile },
     { name: "new_jobs_engineer", path: "/new_jobs", component: New_Jobs_engineer },
     // client

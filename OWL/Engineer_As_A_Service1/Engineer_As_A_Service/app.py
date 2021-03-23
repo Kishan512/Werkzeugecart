@@ -73,7 +73,8 @@ class myHandler(SimpleHTTPRequestHandler):
         elif self.path == '/book_engineer':
             data = self.rfile.read(int(self.headers.get('Content-Length')))
             data = json.loads(data)
-            book_engineer = self.db_connection.book_engineer(data)
+            get_engineer_info = self.db_connection.get_engineer_info(data)
+            book_engineer = self.db_connection.book_engineer(get_engineer_info)
             return self.wfile.write(json.dumps({'book_engineer': "success"}).encode())
 
 
@@ -100,33 +101,40 @@ class myHandler(SimpleHTTPRequestHandler):
                         session_id = session_cookie.get('session_id')[0]
                         user = self.db_connection.session_validate({'session_id': session_id})
                         role = self.db_connection.get_user_role_session_val({'session_id': session_id})
-                        engineer_list = self.db_connection.get_engineer_list()
-                        get_order_list = self.db_connection.get_order_list()
-
+                        e_list = self.db_connection.get_engineer_list()
+                        order = self.db_connection.get_order_list()
                         if user and len(user):
                             session_info = {
                                 'user_id': user[0],
                                 'is_valid': True,
                                 'session_id': session_id,
-                                'role': role[0]
+                                'role':role[0]
                             }
-                            engineer_list={
-                                'engineer_id': engineer_list[0][0],
-                                'email': engineer_list[0][1],
-                                'specialist': engineer_list[0][2],
-                                'mobile_no': engineer_list[0][3],
-                                'experience': engineer_list[0][4],
-                            }
-                            order_list={
-                                'engineer_id': get_order_list[0][0],
-                                'email': get_order_list[0][1],
-                                'specialist': get_order_list[0][2],
-                                'mobile_no': get_order_list[0][3],
-                                'experience': get_order_list[0][4],
-                            }
+                        if e_list and len(e_list):
+                            data_list = list()
+                            for engineer_list in e_list:                                
+                                engineer_list={
+                                    'engineer_id': engineer_list[0],
+                                    'email': engineer_list[2],
+                                    'mobile_no': engineer_list[6],
+                                    'specialist': engineer_list[7],
+                                    'experience': engineer_list[8],
+                                }
+                                data_list.append(engineer_list)
+                        if order and len(order):
+                            final_order_list = list()
+                            for order_list in order: 
+                                order_list={
+                                    'engineer_id': order_list[0],
+                                    'email': order_list[1],
+                                    'specialist': order_list[2],
+                                    'mobile_no': order_list[3],
+                                    'experience': order_list[4],
+                                }
+                                final_order_list.append(order_list)
                 html = html.replace('$session_info', json.dumps(session_info))
-                html = html.replace('$engineer_list', json.dumps(engineer_list))
-                html = html.replace('$get_order_list', json.dumps(get_order_list))
+                html = html.replace('$data_list', json.dumps(data_list))
+                html = html.replace('$final_order_list', json.dumps(final_order_list))
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
