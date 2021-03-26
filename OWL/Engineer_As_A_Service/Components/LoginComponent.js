@@ -32,6 +32,7 @@ export class Login extends Component {
                 document.cookie = `session_id=${response.session_id}`;
                 owl.session_info = {
                     user_id: response.user_id,
+                    fname: response.fname,
                     is_valid: response.is_valid,
                     session_id: response.session_id,
                     role: response.role
@@ -44,6 +45,7 @@ export class Login extends Component {
                 document.cookie = `session_id=${response.session_id}`;
                 owl.session_info = {
                     user_id: response.user_id,
+                    fname: response.fname,
                     is_valid: response.is_valid,
                     session_id: response.session_id,
                     role: response.role

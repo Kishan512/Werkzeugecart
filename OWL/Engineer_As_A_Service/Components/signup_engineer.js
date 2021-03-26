@@ -1,7 +1,7 @@
 const { Component, mount, useState } = owl;
 const { xml } = owl.tags;
 
-export class Signup extends Component {
+export class signup_engineer extends Component {
         constructor() {
         super(...arguments);
         this.state = useState({
@@ -14,7 +14,7 @@ export class Signup extends Component {
 
     onFormSubmit(ev){
         const xhr = new window.XMLHttpRequest();
-        xhr.open('POST', '/do_signup');
+        xhr.open('POST', '/do_signup_engineer');
         const formData = new FormData(ev.currentTarget);
         xhr.send(JSON.stringify(Object.fromEntries(formData.entries())));
         xhr.onload = async () => {
@@ -51,25 +51,27 @@ export class Signup extends Component {
     _onKeyUpPwd(ev) {
         this._checkPwd();
     }
-    signup_engineer(ev){
-         this.env.router.navigate({ to: 'signup_engineer' });
+    signup_client(ev){
+         this.env.router.navigate({ to: 'signup' });
     }
-    
-    
 
-   static template = xml`<div>
+    static template = xml`<div>
         <div class="container mt-5">
         <h1>SignUp Here</h1>
         <div class="mb-5 mt-5">
         <label for="engineer_signup">Are you want to join as a engineer ? </label>
-        <button type="button" class="btn btn-primary ml-2" t-on-click="signup_engineer">Engineer</button>
+        <button type="button" class="btn btn-primary ml-2" t-on-click="signup_client">Customer</button>
         </div>
         <form action="#" t-on-submit.prevent="onFormSubmit">
-            <div id="customer">
-                 <h2 class="mb-3">Customer Signup</h2>
+            <div id="engineer">
+                 <h2 class="mb-3">Engineer Signup</h2>
                 <div class="form-group">
                     <label for="email">Email address:</label>
                     <input type="email" class="form-control" placeholder="Enter email" name="email" id="email" required="true"/>
+                </div>
+                <div class="form-group">
+                    <label for="fname">Name:</label>
+                    <input type="text" class="form-control" placeholder="Enter Name" name="fname" id="fname" required="true"/>
                 </div>
                 <div class="form-group">
                     <label for="pwd">Password:</label>
@@ -89,6 +91,20 @@ export class Signup extends Component {
                 <div class="form-group">
                     <label for="mobile-no">Mobile No:</label>
                     <input type="text" class="form-control" placeholder="Enter Mobile number" name="mobno" id="mobile-no" required="true"/>
+                </div>
+                 <div class="form-group" id="yup">
+                    <label for="Specialist">Specialist:</label>
+                    <button type="button" t-on-click="addSpecialist()" class="btn btn-success">Add</button>
+                    <input type="text" class="form-control" placeholder="Enter Specialist" name="specialist" id="specialist"/>
+                </div>
+                <div class="form-group" id="yup">
+                    <label for="experience">Experience:</label>
+                    <input type="text" class="form-control" placeholder="Enter Experience" name="experience" id="experience"/>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox"/> Remember me
+                    </label>
                 </div>
                 <div class="text text-danger"><t t-esc="state.invalid_eml"/></div>
                 <button type="submit" class="btn btn-primary ml-2" disabled="True">Submit</button>
