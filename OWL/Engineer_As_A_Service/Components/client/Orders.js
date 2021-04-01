@@ -8,6 +8,7 @@ export class Orders extends Component {
         this.env.bus.on('client_orders_list', this, this.client_orders_list);
         this.state = useState({
             data: [],
+            fname: owl.session_info.fname,
         });
     }
     client_orders_list (ev) {
@@ -16,10 +17,10 @@ export class Orders extends Component {
     }
 
     view_orders_detail(ev){
-        const eng_id = ev.target.id;
+        const cus_id = ev.target.id;
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/view_orders_detail');
-            xhr.send(JSON.stringify({'id': eng_id}));
+            xhr.send(JSON.stringify({'client_id': cus_id}));
             xhr.onload = async () => {
                 const response = JSON.parse(xhr.response);
                 this.env.bus.trigger('view_orders_detail', {valid: response.view_orders_detail});
@@ -32,11 +33,13 @@ export class Orders extends Component {
                        <h1>Orders list </h1> 
                     </div>
                     <div>
-                        <table class="table" style="width:40%">
+                        <table class="table" style="width:50%">
                             <thead>
                                 <tr>
                                     <th>id</th>
-                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Order Date</th>
+                                    <th>Order Time</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -44,8 +47,17 @@ export class Orders extends Component {
                                     <t t-foreach="state.data" t-as="task" t-key="task.id">
                                         <tr>
                                             <td><t t-esc="task.engineer_id" /></td>
-                                            <td><t t-esc="task.email" /></td>
-                                            <td><button type="submit" t-att-id="task.engineer_id" t-on-click="view_orders_detail" class="btn btn-success">View</button></td>
+                                            <td><t t-esc="task.fname" /></td>
+                                            <td>
+                                                <t t-esc="task.created_day" />/
+                                                <t t-esc="task.created_month" />/
+                                                <t t-esc="task.created_year" />
+                                            </td>
+                                             <td>
+                                                <t t-esc="task.created_hour" />:
+                                                <t t-esc="task.created_minute" />
+                                            </td>
+                                            <td><button type="submit"  t-att-id="state.engineer_id" t-on-click="view_orders_detail" class="btn btn-success">View</button></td>
                                         </tr>
                                     </t>
                             </tbody>

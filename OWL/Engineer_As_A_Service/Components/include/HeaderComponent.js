@@ -43,17 +43,18 @@ export class HeaderComponent extends Component {
     jobs(){
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/do_fetch_jobs');
-            xhr.send(JSON.stringify({'user_id': owl.session_info.user_id}));
+            xhr.send(JSON.stringify({'user_id': this.state.user_id}));
             xhr.onload = async () => {
                 const response = JSON.parse(xhr.response);
                 this.env.bus.trigger('arrives_jobs', {valid: response.arrives_jobs});
             }
-        this.env.router.navigate({ to: 'jobs' });
+        this._updateState();
+        this.env.router.navigate({ to: 'jobs' });       
     }
     Engineer_profile(){
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/do_fetch_engineer_profile');
-            xhr.send(JSON.stringify({'user_id': owl.session_info.user_id}));
+            xhr.send(JSON.stringify({'user_id': this.state.user_id}));
             xhr.onload = async () => {
                 const response = JSON.parse(xhr.response);
                 console.log(response)
@@ -86,22 +87,22 @@ export class HeaderComponent extends Component {
             xhr.send(JSON.stringify({'fname': eng_name}));
             xhr.onload = async () => {
                 const response = JSON.parse(xhr.response);
-                console.log(response.engineer_list);
                 this.env.bus.trigger('client_orders_list', {valid: response.engineer_list});
             }
             this.env.router.navigate({ to: 'Orders' });
     }
     client_profile(ev){
+        console.log(this.state.user_id)
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/do_fetch_client_profile');
-            xhr.send(JSON.stringify({'user_id': owl.session_info.user_id}));
+            xhr.send(JSON.stringify({'user_id': this.state.user_id}));
             xhr.onload = async () => {
                 const response = JSON.parse(xhr.response);
                 this.env.bus.trigger('client_client_profile', {valid: response.client_profile});
             }
         this.env.router.navigate({ to: 'client_profile' });
     }
-    async logout(ev){
+    logout(ev){
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/do_logout');
             xhr.send(JSON.stringify({'session_id': this.state.session_id}));

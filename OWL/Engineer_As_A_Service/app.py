@@ -36,7 +36,7 @@ class myHandler(SimpleHTTPRequestHandler):
                 return self.wfile.write(json.dumps({'credentials': True}).encode())
             else:
                 return self.wfile.write(json.dumps({'credentials': False}).encode())     
-        elif self.path == '/do_login':
+        elif self.path == '/do_login': 
             data = self.rfile.read(int(self.headers.get('Content-Length')))
             data = json.loads(data)
             user_data = self.db_connection.user_exists(data)
@@ -76,7 +76,6 @@ class myHandler(SimpleHTTPRequestHandler):
 
         elif self.path == '/client_engineer_list':
             user_data = self.db_connection.fetch_engineer_data()
-            print(user_data[0][9])
             data_list = list()  
             for engineer_list in user_data:                                
                 engineer_list={
@@ -122,7 +121,13 @@ class myHandler(SimpleHTTPRequestHandler):
             for order_list in order: 
                 order_list={
                     'engineer_id': order_list[0],
-                    'email': order_list[1],
+                    'fname': order_list[1],
+                    'created_day':order_list[2].day,
+                    'created_month':order_list[2].month,
+                    'created_year':order_list[2].year,
+                    'created_hour':order_list[2].hour,
+                    'created_minute':order_list[2].minute,
+
                 }
                 final_order_list.append(order_list)
             return self.wfile.write(json.dumps({'engineer_list': final_order_list}).encode())
@@ -130,24 +135,30 @@ class myHandler(SimpleHTTPRequestHandler):
         elif self.path == '/view_orders_detail':
             data = self.rfile.read(int(self.headers.get('Content-Length')))
             data = json.loads(data)
-            result = self.db_connection.fetch_view_engineer_orders_detail(data)
+            result = self.db_connection.fetch_view_engineer_orders_detail(data['fname'])
             result_data = list()
             for view_orders_list in result:                                
                 view_orders_list={
                     'engineer_id': view_orders_list[0],
-                    'email': view_orders_list[2],
-                    'fname': view_orders_list[3],
-                    'mobile_no': view_orders_list[7],
-                    'specialist': view_orders_list[8],
-                    'experience': view_orders_list[9],
+                    'eng_name': view_orders_list[1],
+                    'created_day':view_orders_list[2].day,
+                    'created_month':view_orders_list[2].month,
+                    'created_year':view_orders_list[2].year,
+                    'created_hour':view_orders_list[2].hour,
+                    'created_minute':view_orders_list[2].minute,
+                    'email': view_orders_list[3],
+                    'mobile_no': view_orders_list[4],
+                    'specialist': view_orders_list[5],
+                    'experience': view_orders_list[6],
                 }
                 result_data.append(view_orders_list)
+
             return self.wfile.write(json.dumps({'view_orders_detail': result_data}).encode()) 
 
         elif self.path == '/do_fetch_client_profile':
             data = self.rfile.read(int(self.headers.get('Content-Length')))
             data = json.loads(data)
-            result = self.db_connection.fetch_client_profile(data['user_id'])
+            result = self.db_connection.fetch_client_profile(data)
             data_list = list()
             for client_profile in result:                                
                 profile_list={
@@ -165,14 +176,20 @@ class myHandler(SimpleHTTPRequestHandler):
         elif self.path == '/do_fetch_jobs':
             data = self.rfile.read(int(self.headers.get('Content-Length')))
             data = json.loads(data)
-            result = self.db_connection.fetch_arrives_jobs_data(data['user_id'])
+            result = self.db_connection.fetch_arrives_jobs_data(data)
+            print(result)
             data_list = list()
             for arrives_jobs in result:                                
                 job_list={
-                    'user_id':arrives_jobs[0],
+                    'client_id':arrives_jobs[0],
                     'client_name': arrives_jobs[1],
                     'mobile_no': arrives_jobs[2],
                     'address': arrives_jobs[3],
+                    'created_day':arrives_jobs[4].day,
+                    'created_month':arrives_jobs[4].month,
+                    'created_year':arrives_jobs[4].year,
+                    'created_hour':arrives_jobs[4].hour,
+                    'created_minute':arrives_jobs[4].minute,
                 }
                 data_list.append(job_list)
 
@@ -181,7 +198,7 @@ class myHandler(SimpleHTTPRequestHandler):
         elif self.path == '/do_fetch_engineer_profile':
             data = self.rfile.read(int(self.headers.get('Content-Length')))
             data = json.loads(data)
-            result = self.db_connection.fetch_engineer_profile(data['user_id'])
+            result = self.db_connection.fetch_engineer_profile(data)
             data_list = list()
             for engineer_profile in result:                                
                 profile_list={
@@ -200,7 +217,7 @@ class myHandler(SimpleHTTPRequestHandler):
         elif self.path == '/view_job_detail':
             data = self.rfile.read(int(self.headers.get('Content-Length')))
             data = json.loads(data)
-            result = self.db_connection.fetch_view_client_job_detail(data)
+            result = self.db_connection.fetch_view_client_job_detail(data['client_name'])
             result_data = list()
             for view_job_list in result:                                
                 view_job={
@@ -215,7 +232,7 @@ class myHandler(SimpleHTTPRequestHandler):
 
 
     def do_GET(self):
-        if self.path in ['/', '/signup', '/signupEngineer', '/login', '/homee', '/engineers', '/jobs', '/new_jobs', '/profile', '/home', '/engineerslist', '/engineerslist','/view_engineer_detail','/orders','/profilee','/view_orders_detail','/view_engineer_detail']:
+        if self.path in ['/', '/signup', '/signupEngineer', '/login', '/homee', '/engineers', '/jobs', '/new_jobs', '/profile', '/home', '/engineerslist', '/engineerslist','/view_engineer_detail','/orders','/profilee','/view_orders_detail','/view_engineer_detail','/view_jobs_detail']:
             with open('index.html') as f:
                 Cookie = self.headers.get('Cookie')
                 session_id = False  

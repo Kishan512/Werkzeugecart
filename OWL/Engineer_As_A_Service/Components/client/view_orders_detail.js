@@ -4,7 +4,7 @@ const { xml } = owl.tags;
 
 
 export class view_orders_detail extends Component {
-	constructor() {
+	constructor() {debugger
         super(...arguments);
         this.env.bus.on('view_orders_detail', this, this.view_orders_detail);
         this.state = useState({
@@ -37,11 +37,26 @@ export class view_orders_detail extends Component {
                     </tr>
                     <tr>
                         <td>Name</td>
-                        <td><t t-esc="task.fname" /></td>
+                        <td><t t-esc="task.eng_name" /></td>
                     </tr>
                     <tr>
                         <td>Mobile No</td>
                         <td><t t-esc="task.mobile_no" /></td>
+                    </tr>
+                    <tr>
+                        <td>Order Date</td>
+                        <td>
+                            <t t-esc="task.created_day" />/
+                            <t t-esc="task.created_month" />/
+                            <t t-esc="task.created_year" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Order Time</td>
+                        <td>
+                            <t t-esc="task.created_hour" />:
+                            <t t-esc="task.created_minute" />
+                        </td>
                     </tr>
                     <tr>
                         <td>Specialist</td>
