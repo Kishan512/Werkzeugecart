@@ -32,10 +32,10 @@ export class view_orders_detail extends Component {
                 <tbody>
                     <t t-foreach="state.data" t-as="task" t-key="task.id">
                     <tr>
-                        <td>Id</td>
-                        <td><t t-esc="task.engineer_id" /></td>
+                        <td>Order Id</td>
+                        <td><t t-esc="task.order_id" /></td>
                     </tr>
-                    <tr>
+                    <tr>    
                         <td>Name</td>
                         <td><t t-esc="task.eng_name" /></td>
                     </tr>

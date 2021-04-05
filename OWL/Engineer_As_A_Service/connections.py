@@ -118,11 +118,11 @@ class Connection():
         self.cr.execute(book_engineer)
 
     def fetch_order_list(self,fname):
-        self.cr.execute("SELECT orders.user_id, orders.engineer_name, orders.created_date, users.email FROM Orders INNER JOIN users ON orders.user_id=users.user_id WHERE orders.client_name='%s'" % (fname))
+        self.cr.execute("SELECT orders.order_id, orders.engineer_name, orders.created_date, users.email FROM Orders INNER JOIN users ON orders.user_id=users.user_id WHERE orders.client_name='%s'" % (fname))
         return self.cr.fetchall()
         
-    def fetch_view_engineer_orders_detail(self,fname):
-        self.cr.execute("SELECT orders.user_id, orders.engineer_name, orders.created_date, users.email, users.mobile_no, users.specialist, users.experience FROM Orders INNER JOIN users ON orders.user_id=users.user_id WHERE orders.client_name='%s'" % (fname))
+    def fetch_view_engineer_orders_detail(self,data):
+        self.cr.execute("SELECT orders.order_id,orders.engineer_name,orders.created_date,users.mobile_no,users.specialist,users.experience,users.email FROM orders INNER JOIN users ON orders.user_id=users.user_id WHERE order_id=%s" % (data['order_id']))
         return self.cr.fetchall()
 
     def fetch_client_profile(self,data):
@@ -138,13 +138,13 @@ class Connection():
 # fetch_arrives_jobs_data
         
     def fetch_arrives_jobs_data(self,data):
-        res = self.cr.execute("SELECT users.user_id, users.fname, users.mobile_no, users.address, orders.created_date FROM Orders INNER JOIN users ON orders.client_name=users.fname WHERE orders.user_id=%s" % (data['user_id']))
+        res = self.cr.execute("SELECT orders.order_id, users.fname, users.mobile_no, users.address, orders.created_date FROM Orders INNER JOIN users ON orders.client_name=users.fname WHERE orders.user_id=%s" % (data['user_id']))
         return self.cr.fetchall()
 
     def fetch_engineer_profile(self,data):
         self.cr.execute("SELECT * from users WHERE user_id='%s'"%(data['user_id']))
         return self.cr.fetchall()
 
-    def fetch_view_client_job_detail(self,client_name):
-        self.cr.execute("SELECT * FROM users WHERE user_id=%s" % (client_name))
+    def fetch_view_client_job_detail(self,data):
+        self.cr.execute("SELECT orders.order_id,orders.client_name,orders.created_date,users.mobile_no,users.address,users.email FROM orders INNER JOIN users ON orders.user_id=users.user_id WHERE Orders.order_id=%s" % (data['order_id']))
         return self.cr.fetchall()

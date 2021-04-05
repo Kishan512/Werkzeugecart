@@ -40,10 +40,11 @@ export class HeaderComponent extends Component {
     engineers(){
          this.env.router.navigate({ to: 'engineers' });
     }
-    jobs(){
+    jobs(ev){
+        const user_id = ev.target.id;
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/do_fetch_jobs');
-            xhr.send(JSON.stringify({'user_id': this.state.user_id}));
+            xhr.send(JSON.stringify({'user_id': user_id}));
             xhr.onload = async () => {
                 const response = JSON.parse(xhr.response);
                 this.env.bus.trigger('arrives_jobs', {valid: response.arrives_jobs});
@@ -51,10 +52,11 @@ export class HeaderComponent extends Component {
         this._updateState();
         this.env.router.navigate({ to: 'jobs' });       
     }
-    Engineer_profile(){
+    Engineer_profile(ev){
+        const user_id = ev.target.id;
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/do_fetch_engineer_profile');
-            xhr.send(JSON.stringify({'user_id': this.state.user_id}));
+            xhr.send(JSON.stringify({'user_id': user_id}));
             xhr.onload = async () => {
                 const response = JSON.parse(xhr.response);
                 console.log(response)
@@ -79,9 +81,9 @@ export class HeaderComponent extends Component {
                 }
                 this.env.router.navigate({ to: 'client_Engineer_list' });
     }
+    
     Orders(ev){
         const eng_name = ev.target.id;
-        console.log(eng_name);
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/do_fetch_orders');
             xhr.send(JSON.stringify({'fname': eng_name}));
@@ -91,17 +93,19 @@ export class HeaderComponent extends Component {
             }
             this.env.router.navigate({ to: 'Orders' });
     }
-    client_profile(ev){
-        console.log(this.state.user_id)
+
+    client_profile(ev){debugger
+        const user_id = ev.target.id;
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/do_fetch_client_profile');
-            xhr.send(JSON.stringify({'user_id': this.state.user_id}));
+            xhr.send(JSON.stringify({'user_id': user_id}));
             xhr.onload = async () => {
                 const response = JSON.parse(xhr.response);
                 this.env.bus.trigger('client_client_profile', {valid: response.client_profile});
             }
         this.env.router.navigate({ to: 'client_profile' });
     }
+
     logout(ev){
         const xhr = new window.XMLHttpRequest();
             xhr.open('POST', '/do_logout');
@@ -141,10 +145,10 @@ export class HeaderComponent extends Component {
                                    <button class="nav-link btn-warning mr-2" t-on-click="HomeEngineer">Home</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="nav-link btn-warning mr-2" href="#" t-on-click="jobs">Jobs</button>
+                                    <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="jobs">Jobs</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="nav-link btn-warning mr-2" href="#" t-on-click="Engineer_profile">Profile</button>
+                                    <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="Engineer_profile">Profile</button>
                                 </li>
                                 <li class="nav-item">
                                     <button class="nav-link btn-warning ml-3" href="#" t-on-click="logout">Logout</button>
@@ -162,7 +166,7 @@ export class HeaderComponent extends Component {
                                     <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.fname" t-on-click="Orders">Orders</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link btn-warning mr-2" href="#" t-on-click="client_profile">Profile</button>
+                                <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="client_profile">Profile</button>
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link btn-warning ml-3" href="#" t-on-click="logout">Logout</button>

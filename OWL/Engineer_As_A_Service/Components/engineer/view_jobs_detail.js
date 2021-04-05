@@ -33,11 +33,26 @@ export class view_jobs_detail extends Component {
                     <t t-foreach="state.data" t-as="task">
                     <tr>
                         <td>Id</td>
-                        <td><t t-esc="task.client_id" /></td>
+                        <td><t t-esc="task.order_id" /></td>
                     </tr>
                     <tr>
                         <td>Name</td>
-                        <td><t t-esc="task.fname" /></td>
+                        <td><t t-esc="task.client_name" /></td>
+                    </tr>
+                     <tr>
+                        <td>Order Date</td>
+                        <td>
+                            <t t-esc="task.created_day" />/
+                            <t t-esc="task.created_month" />/
+                            <t t-esc="task.created_year" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Order Time</td>
+                        <td>
+                            <t t-esc="task.created_hour" />:
+                            <t t-esc="task.created_minute" />
+                        </td>
                     </tr>
                     <tr>
                         <td>Mobile No</td>
