@@ -12,8 +12,9 @@
 
     'data' : [
         'security/ir.model.access.csv',
-        'data/data.xml',
+        # 'data/data.xml',
         'controllers/template.xml',
+        'controllers/assests.xml',
     ],
 
     'application' : True

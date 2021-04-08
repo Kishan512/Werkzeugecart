@@ -1,42 +1,515 @@
 <odoo>
-    <template id="my_template">
-            <h1>My Page</h1>
-            <h2>Engineer Information</h2>
-            <a href="/create_student" class="btn btn-primary">Create</a>
-            <t t-call="Engineer_as_a_service.student_table"/>
+    <!-- ............................before login............................. -->
+    <!-- ...............................home.............................. -->
+    <template id="home">
+    <t t-call="web.layout">        
+        <t t-call="Engineer_as_a_service.header"/>
+        <t t-call="Engineer_as_a_service.dashboard"/>
+        <t t-call="Engineer_as_a_service.footer"/>
+        </t>
     </template>
 
-    <template id="student_table">
-        <table>
-            <tr>
-                <th>Id</th>
-                <th>Role</th>
-                <th>Email</th>
-                <th>Name</th>
-            </tr>
-            <tr t-foreach="students" t-as="student">
-                <td><t t-esc="student.user_id"/></td>
-                <td><t t-esc="student.role"/></td>
-                <td><t t-esc="student.email"/></td>
-                <td><t t-esc="student.name"/></td>
-                <!-- <td><t t-esc="student.mobile_no"/></td>
-                <td><t t-esc="student.address"/></td>
-                <td><t t-esc="student.specialist"/></td>
-                <td><t t-esc="student.experience"/></td> -->
-                <td><a class="btn" t-att-href="'/delete/%s' % student.id">Delete</a></td>
-            </tr>
-        </table>
-    </template>
+<!-- ................................ home........................................-->
 
-    <template id="create_student">
-            <form action="/submit_form">
-                <div>
-                    <div>id: <input type="text" name="user_id"/></div><br/>
-                    <div>Role: <input type="text" name="role"/></div><br/>
-                    <div>Email Id: <input type="email" name="email"/></div><br/>
-                    <div>name: <input type="text" name="name"/></div><br/>
-                    <div><button type="submit">submit</button></div>
+    <template id="dashboard">
+        <div class="mb-5 ml-5 mt-5">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h3><font color="orange"> Best Solution of your Product</font> </h3><br></br>
+                    <h1><font color="orange">We have the amzing staff of engineer</font></h1><br></br>
+                   
+                    <button t-on-click="Signup" class="btn btn-dark">Get started</button>
+                    <button t-on-click="Login" class="btn btn-danger ml-3">Login</button>
                 </div>
-            </form>
+                <div class="col-sm-6">
+                    <img src="static/images/engineer.jpg" class="img-fluid mt-5 rounded zoom" alt="Responsive image"/>
+                </div>   
+            </div>
+        </div>
+    </template>
+
+<!-- ................................ header........................................-->
+    
+    <template id="header">
+        <t t-call="web.layout">        
+             <nav class="navbar navbar-expand-md  navbar-light bg-info">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <!-- <t t-if="state.user_id and state.is_valid">
+                            <t t-if="state.role === 'engineer'">
+                                <a class="navbar-brand" t-on-click="HomeEngineer">LOGO</a>
+                                    <li class="nav-item active">
+                                       <button class="nav-link btn-warning mr-2" t-on-click="HomeEngineer">Home</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="jobs">Jobs</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="Engineer_profile">Profile</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link btn-warning ml-3" href="#" t-on-click="logout">Logout</button>
+                                    </li> 
+                            </t>
+                            <t t-else="">
+                            <a class="navbar-brand" t-on-click="homeclient">LOGO</a>
+                                <li class="nav-item active">
+                                   <button class="nav-link btn-warning mr-2" t-on-click="homeclient">Home</button>
+                                </li>
+                                <li class="nav-item">
+                                        <button class="nav-link btn-warning mr-2" href="#" t-on-click="client_Engineer_list">Engineers</button>
+                                </li>
+                                <li class="nav-item">
+                                        <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.fname" t-on-click="Orders">Orders</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="client_profile">Profile</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link btn-warning ml-3" href="#" t-on-click="logout">Logout</button>
+                                </li>
+                            </t>
+                            <li style="margin-left: 700px;">
+                                <h5> <t t-esc="'welcome '+state.fname" /></h5>
+                            </li>
+                        </t>     
+                        <t t-else=""> -->
+                            <a class="navbar-brand" t-on-click="Home">LOGO</a>
+                            <li class="nav-item active">
+                               <button class="nav-link btn-warning mr-2" onClick="location.href='/home'">Home</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link btn-warning mr-2" href="#" onClick="location.href='/login'">Login</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link btn-warning mr-2" href="#" onClick="location.href='/signup'">Signup</button>
+                            </li>
+                        
+                        <!-- </t> -->
+                    </ul>
+                    
+                </div>
+            </nav>
+        </t>
+    </template>
+
+<!-- ................................ footer........................................-->
+    
+    <template id="footer">
+        <t t-call="web.layout">        
+            <nav class="navbar navbar-expand-lg navbar-light bg-info mb-0 mt-5 fix-bottom" >
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+               <h3>@Engineer as a service</h3>
+              </div>
+            </nav>
+        </t>
+    </template>
+
+<!-- .................................login.................................... -->
+    <template id="login">
+        <t t-call="web.layout">        
+            <t t-call="Engineer_as_a_service.header"/>
+            <div class="container mt-5">
+                <h1 class="mb-4">Login Here</h1>
+                <form action="/login_submit">
+                    <div class="form-group">
+                        <label for="email">Email address:</label>
+                        <input type="email" class="form-control" name="email" placeholder="Enter email" id="email" required="true"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="pwd">Password:</label>
+                        <input type="password" class="form-control" name="password" placeholder="Enter password" id="pwd" required="true"/>
+                    </div>
+                    <div class="text text-danger"><!-- <t t-esc="state.invalid"/> --></div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <t t-call="Engineer_as_a_service.footer"/>
+        </t>
+    </template>
+
+<!-- ................................ signup ........................................-->
+
+    <template id="signup">
+        <t t-call="web.layout">        
+            <t t-call="Engineer_as_a_service.header"/>
+                <div class="container mt-5">
+                    <h1>SignUp Here</h1>
+                    <div class="mb-5 mt-5">
+                        <label for="engineer_signup">Are you want to join as a engineer ? </label>
+                        <button type="button" class="btn btn-primary ml-2" onClick="location.href='/signup_engineer'">Engineer</button>
+                    </div>
+                    <form action="/signup_submit" method="POST">
+                        <div id="customer">
+                             <h2 class="mb-3">Customer Signup</h2>
+                            <div class="form-group">
+                                <label for="email">Email address:</label>
+                                <input type="email" class="form-control" placeholder="Enter email" name="email" id="email" required="true"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="fname">Name:</label>
+                                <input type="text" class="form-control" placeholder="Enter Name" name="fname" id="fname" required="true"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Password:</label>
+                                <input type="password" t-model="state.pwd" t-on-keyup="_onKeyUpPwd" class="form-control" placeholder="Enter password" name="password" id="pwd" required="true"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="repwd">Re-Enter Password:</label>
+                                <input type="password" t-model="state.repwd" t-on-keyup="_onKeyUpRePwd" class="form-control" placeholder="Enter password" name="repwd" id="repwd" required="true"/>
+                            </div>
+                         <!--    <div t-if="state.pwmatch === false">
+                                <h4>Password Does not match</h4>
+                            </div> -->
+                            <div class="form-group">
+                                <label for="Address">Address:</label>
+                                <input type="text" class="form-control" placeholder="Enter Address" name="address" id="add" required="true"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile-no">Mobile No:</label>
+                                <input type="text" class="form-control" placeholder="Enter Mobile number" name="mobno" id="mobile-no" required="true"/>
+                            </div>
+                            <div class="text text-danger"><!-- <t t-esc="state.invalid_eml"/> --></div>
+                            <button type="submit" class="btn btn-primary ml-2" >Submit</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <t t-call="Engineer_as_a_service.footer"/>
+            </t>
+    </template>
+
+
+<!-- ................................ signup for engineer ........................................-->
+
+
+    <template id="signup_engineer">
+        <t t-call="web.layout">        
+            <t t-call="Engineer_as_a_service.header"/>
+                <div class="container mt-5">
+                    <h1>SignUp Here</h1>
+                    <div class="mb-5 mt-5">
+                        <label for="engineer_signup">Are you want to join as a engineer ? </label>
+                        <button type="button" class="btn btn-primary ml-2" onClick="location.href='/signup'">Customer</button>
+                    </div>
+                        <form action="/signup_submit" method="POST">
+                            <div id="engineer">
+                                <h2 class="mb-3">Engineer Signup</h2>
+                                <div class="form-group">
+                                    <label for="email">Email address:</label>
+                                    <input type="email" class="form-control" placeholder="Enter email" name="email" id="email" required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fname">Name:</label>
+                                    <input type="text" class="form-control" placeholder="Enter Name" name="fname" id="fname" required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pwd">Password:</label>
+                                    <input type="password" t-model="state.pwd" t-on-keyup="_onKeyUpPwd" class="form-control" placeholder="Enter password" name="password" id="pwd" required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="repwd">Re-Enter Password:</label>
+                                    <input type="password" t-model="state.repwd" t-on-keyup="_onKeyUpRePwd" class="form-control" placeholder="Enter password" name="repwd" id="repwd" required="true"/>
+                                </div>
+                             <!--    <div t-if="state.pwmatch === false">
+                                    <h4>Password Does not match</h4>
+                                </div> -->
+                                <div class="form-group">
+                                    <label for="Address">Address:</label>
+                                    <input type="text" class="form-control" placeholder="Enter Address" name="address" id="add" required="true"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mobile-no">Mobile No:</label>
+                                    <input type="text" class="form-control" placeholder="Enter Mobile number" name="mobno" id="mobile-no" required="true"/>
+                                </div>
+                                 <div class="form-group" id="yup">
+                                    <label for="Specialist">Specialist:</label>
+                                    <button type="button" t-on-click="addSpecialist()" class="btn btn-success">Add</button>
+                                    <input type="text" class="form-control" placeholder="Enter Specialist" name="specialist" id="specialist"/>
+                                </div>
+                                <div class="form-group" id="yup">
+                                    <label for="experience">Experience:</label>
+                                    <input type="text" class="form-control" placeholder="Enter Experience" name="experience" id="experience"/>
+                                </div>
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox"/> Remember me
+                                    </label>
+                                </div>
+                                <div class="text text-danger"><!-- <t t-esc="state.invalid_eml"/> --></div>
+                                <button type="submit" class="btn btn-primary ml-2">Submit</button>
+                            </div>
+                        </form>
+                </div> 
+            <t t-call="Engineer_as_a_service.footer"/>   
+        </t>
+    </template>
+
+
+<!-- ..............................After Login................................ -->
+
+
+<!-- ..............................Home_client................................ -->
+
+    <template id="home_client">
+        <t t-call="web.layout">        
+            <t t-call="Engineer_as_a_service.header_client"/>
+            <t t-call="Engineer_as_a_service.home_client_dashboard"/>
+            <t t-call="Engineer_as_a_service.footer"/>
+        </t>
+    </template>
+
+<!-- ..............................Home_client................................ -->
+
+    <template id="home_client_dashboard">
+        <div class="container">   
+            <div class="mb-5 ml-5 mt-5">
+                <div class="row">
+                    <div class="col-sm-6"><br></br>
+                        <h3><font color="orange">Our staff available for you</font> </h3><br></br>
+                        <h1><font color="orange">Get Service at home</font></h1><br></br>
+                       
+                        <button  class="btn btn-dark">Get started</button>
+                        <button  class="btn btn-danger ml-3">Jobs</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="static/images/eng.jpg" class="img-fluid mt-2 rounded zoom" alt="Responsive image"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+<!-- ..............................Header client ................................ -->
+
+    <template id="header_client">
+        <t t-call="web.layout">        
+             <nav class="navbar navbar-expand-md  navbar-light bg-info">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <!-- <t t-if="state.user_id and state.is_valid">
+                            <t t-if="state.role === 'engineer'"> -->
+                                <!-- <a class="navbar-brand" t-on-click="HomeEngineer">LOGO</a>
+                                    <li class="nav-item active">
+                                       <button class="nav-link btn-warning mr-2" t-on-click="HomeEngineer">Home</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="jobs">Jobs</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="Engineer_profile">Profile</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link btn-warning ml-3" href="#" t-on-click="logout">Logout</button>
+                                    </li>  -->
+                            <!-- </t> -->
+                         <!--    <t t-else=""> -->
+                            <a class="navbar-brand" onClick="location.href='/home_client'">LOGO</a>
+                                <li class="nav-item active">
+                                   <button class="nav-link btn-warning mr-2" onClick="location.href='/home_client'">Home</button>
+                                </li>
+                                <li class="nav-item">
+                                        <button class="nav-link btn-warning mr-2" onClick="location.href='/client_Engineer_list'">Engineers</button>
+                                </li>
+                                <li class="nav-item">
+                                        <button class="nav-link btn-warning mr-2" onClick="location.href='/orders'">Orders</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link btn-warning mr-2" onClick="location.href='/client_profile'">Profile</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button class="nav-link btn-warning ml-3" onClick="location.href='/home'">Logout</button>
+                                </li>
+                         <!--    </t>
+                            <li style="margin-left: 700px;">
+                                <h5> <t t-esc="'welcome '+state.fname" /></h5>
+                            </li>
+                        </t>     
+                        <t t-else=""> -->
+                           <!--  <a class="navbar-brand" t-on-click="Home">LOGO</a>
+                            <li class="nav-item active">
+                               <button class="nav-link btn-warning mr-2" onClick="location.href='/home'">Home</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link btn-warning mr-2" href="#" onClick="location.href='/login'">Login</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link btn-warning mr-2" href="#" onClick="location.href='/signup'">Signup</button>
+                            </li>
+                         -->
+                        <!-- </t> -->
+                    </ul>
+                    
+                </div>
+            </nav>
+        </t>
+    </template>
+    
+<!-- ..................................client Engineer list......................... -->
+
+    <template id="client_Engineer_list">
+        <t t-call="web.layout">        
+        <t t-call="Engineer_as_a_service.header_client"/>
+            <div class="container">  
+                <div class="mt-5 mb-5">
+                   <h1>Engineers list </h1> 
+                </div>
+                <div>
+                    <table class="table">
+                        <thead>
+
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>Mobile No</th>
+                                <th>Specialist</th>
+                                <th>Action</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <!-- <t t-foreach="state.data" t-as="i"> -->
+                            <tr t-foreach="engineer_list" t-as="data">
+                                        <td><t t-esc="data.id"/></td>
+                                        <td><t t-esc="data.name"/></td>
+                                        <td><t t-esc="data.mobile_no"/></td>
+                                        <td><t t-esc="data.specialist"/></td>
+                                        <td><a type="submit" class="btn btn-danger text-white">Book</a></td>
+                                        <td><a class="btn btn-success" t-att-href="'/view_engineer_deatail/%s' % data.id">View</a></td>
+                                    </tr>
+                                <!-- </t> -->
+                        </tbody>
+                    
+                    </table>
+                </div> 
+            </div>
+            <t t-call="Engineer_as_a_service.footer"/>
+        </t>
+    </template>
+
+    <template id="view_engineer_detail">
+        <t t-call="web.layout">        
+        <t t-call="Engineer_as_a_service.header_client"/>
+            <div>
+                <h4 class="container mt-3 mb-3">Engineer Detail</h4>
+            </div>
+            <div class="d-flex justify-content-center mt-5">
+                <div class="card text-center" style="width:35em;">
+                    <div class="card-header bg-dark text-white">
+                        Profile
+                    </div>
+                    <div class="card-body">
+                        <table style="width:100%">
+                        <t t-foreach="engineer_list" t-as="data">
+                            <tr>
+                                <th>Name:</th>
+                                <td><t t-esc="data.name"/></td>
+                            </tr>
+                            <tr>
+                                <th>Mobile:</th>
+                                <td><t t-esc="data.mobile_no"/></td>
+                            </tr>
+                            <tr>
+                                <th>Email:</th>
+                                <td><t t-esc="data.email"/></td>
+                            </tr>
+                            <tr>
+                                <th>Specialist:</th>
+                                <td><t t-esc="data.specialist"/></td>
+                            </tr>
+                            <tr>
+                                <th>Experience:</th>
+                                <td><t t-esc="data.experience"/></td>
+                            </tr>
+                        </t>
+                        </table>
+                    </div>
+                    <div class="card-footer bg-dark texxt-white text-muted">
+                    </div>
+                </div>
+            </div>
+        <t t-call="Engineer_as_a_service.footer"/>
+        </t>
+    </template>
+
+<!-- .............................. orders ................ -->
+
+    <template id="orders">
+        <t t-call="web.layout">        
+        <t t-call="Engineer_as_a_service.header_client"/>
+            <div class="container">  
+                <div class="mt-5 mb-5">
+                   <h1>Orders list </h1> 
+                </div>
+                <div>
+                    <table class="table" style="width:50%">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>Name</th>
+                                <th>Order Date</th>
+                                <th>Order Time</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <!-- <t t-foreach="state.data" t-as="task" t-key="task.id"> -->
+                                    <tr>
+                                        <td>1</td>
+                                        <td>kishan Rathod</td>
+                                        <td>
+                                            05/12/1998
+                                        </td>
+                                        <td>
+                                            15:30   
+                                        </td>
+                                        <td><button type="submit" class="btn btn-success">View</button></td>
+                                    </tr>
+                                <!-- </t> -->
+                        </tbody>
+                    </table>
+                </div>      
+            </div>
+            <t t-call="Engineer_as_a_service.footer"/>
+        </t>
+    </template>
+
+<!-- .............................. profile ..................... -->
+    <template id="client_profile">
+        <t t-call="web.layout">        
+        <t t-call="Engineer_as_a_service.header_client"/>
+            <div class="d-flex justify-content-center mt-5">
+                <div class="card text-center" style="width:35em;">
+                    <div class="card-header">
+                        Profile
+                    </div>
+                    <div class="card-body">
+                        <table style="width:100%">
+                        <!-- <t t-foreach="state.data" t-as="i"> -->
+                            <tr>
+                                <th>Name:</th>
+                                <td>kishan Rathod</td>
+                            </tr>
+                            <tr>
+                                <th>Mobile:</th>
+                                <td>0987654323</td>
+                            </tr>
+                            <tr>
+                                <th>Email:</th>
+                                <td>kishan@gmail.com</td>
+                            </tr>
+                            <tr>
+                                <th>Address:</th>
+                                <td>botad</td>
+                            </tr>
+                        <!-- </t> -->
+                        </table>
+                    </div>
+                    <div class="card-footer text-muted">
+                    </div>
+                </div>
+            </div>
+            <t t-call="Engineer_as_a_service.footer"/>
+        </t>
     </template>
 </odoo>
