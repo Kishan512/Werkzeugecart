@@ -35,45 +35,45 @@
              <nav class="navbar navbar-expand-md  navbar-light bg-info">
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <!-- <t t-if="state.user_id and state.is_valid">
-                            <t t-if="state.role === 'engineer'">
-                                <a class="navbar-brand" t-on-click="HomeEngineer">LOGO</a>
+                        <t t-if="request.session.get('user_name')">
+                            <t t-if="request.session.get('role') == 'client'">
+                                <a class="navbar-brand" onClick="location.href='/home_client'">LOGO</a>
                                     <li class="nav-item active">
-                                       <button class="nav-link btn-warning mr-2" t-on-click="HomeEngineer">Home</button>
+                                       <button class="nav-link btn-warning mr-2" onClick="location.href='/home_client'">Home</button>
                                     </li>
                                     <li class="nav-item">
-                                        <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="jobs">Jobs</button>
+                                            <button class="nav-link btn-warning mr-2" onClick="location.href='/client_Engineer_list'">Engineers</button>
                                     </li>
                                     <li class="nav-item">
-                                        <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="Engineer_profile">Profile</button>
+                                            <button class="nav-link btn-warning mr-2" onClick="location.href='/orders'">Orders</button>
                                     </li>
                                     <li class="nav-item">
-                                        <button class="nav-link btn-warning ml-3" href="#" t-on-click="logout">Logout</button>
-                                    </li> 
+                                        <button class="nav-link btn-warning mr-2" onClick="location.href='/client_profile'">Profile</button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link btn-warning ml-3" onClick="location.href='/home'">Logout</button>
+                                    </li>
                             </t>
                             <t t-else="">
-                            <a class="navbar-brand" t-on-click="homeclient">LOGO</a>
+                                <a class="navbar-brand" t-on-click="HomeEngineer">LOGO</a>
                                 <li class="nav-item active">
-                                   <button class="nav-link btn-warning mr-2" t-on-click="homeclient">Home</button>
+                                   <button class="nav-link btn-warning mr-2" t-on-click="HomeEngineer">Home</button>
                                 </li>
                                 <li class="nav-item">
-                                        <button class="nav-link btn-warning mr-2" href="#" t-on-click="client_Engineer_list">Engineers</button>
+                                    <button class="nav-link btn-warning mr-2" href="#">Jobs</button>
                                 </li>
                                 <li class="nav-item">
-                                        <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.fname" t-on-click="Orders">Orders</button>
+                                    <button class="nav-link btn-warning mr-2" href="#" >Profile</button>
                                 </li>
                                 <li class="nav-item">
-                                    <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="client_profile">Profile</button>
-                                </li>
-                                <li class="nav-item">
-                                    <button class="nav-link btn-warning ml-3" href="#" t-on-click="logout">Logout</button>
-                                </li>
+                                    <button class="nav-link btn-warning ml-3" href="#">Logout</button>
+                                </li>         
                             </t>
                             <li style="margin-left: 700px;">
-                                <h5> <t t-esc="'welcome '+state.fname" /></h5>
-                            </li>
+                                        <h5> <t t-esc="'Welcome  '+request.session.get('user_name')" /></h5>
+                                    </li>
                         </t>     
-                        <t t-else=""> -->
+                        <t t-else="">
                             <a class="navbar-brand" t-on-click="Home">LOGO</a>
                             <li class="nav-item active">
                                <button class="nav-link btn-warning mr-2" onClick="location.href='/home'">Home</button>
@@ -84,8 +84,7 @@
                             <li class="nav-item">
                                 <button class="nav-link btn-warning mr-2" href="#" onClick="location.href='/signup'">Signup</button>
                             </li>
-                        
-                        <!-- </t> -->
+                        </t>
                     </ul>
                     
                 </div>
@@ -192,7 +191,7 @@
                         <label for="engineer_signup">Are you want to join as a engineer ? </label>
                         <button type="button" class="btn btn-primary ml-2" onClick="location.href='/signup'">Customer</button>
                     </div>
-                        <form action="/signup_submit" method="POST">
+                        <form action="/engineer_signup_submit" method="POST">
                             <div id="engineer">
                                 <h2 class="mb-3">Engineer Signup</h2>
                                 <div class="form-group">
@@ -246,110 +245,67 @@
     </template>
 
 
-<!-- ..............................After Login................................ -->
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ..............................After Login................................ -->
 
 <!-- ..............................Home_client................................ -->
 
     <template id="home_client">
         <t t-call="web.layout">        
-            <t t-call="Engineer_as_a_service.header_client"/>
-            <t t-call="Engineer_as_a_service.home_client_dashboard"/>
+            <t t-call="Engineer_as_a_service.header"/>
+                <div class="container">   
+                    <div class="mb-5 ml-5 mt-5">
+                        <div class="row">
+                            <div class="col-sm-6"><br></br>
+                                <h3><font color="orange">Our staff available for you</font> </h3><br></br>
+                                <h1><font color="orange">Get Service at home</font></h1><br></br>
+                               
+                                <button  class="btn btn-dark">Get started</button>
+                                <button  class="btn btn-danger ml-3">Jobs</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <img src="static/images/eng.jpg" class="img-fluid mt-2 rounded zoom" alt="Responsive image"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <t t-call="Engineer_as_a_service.footer"/>
         </t>
     </template>
 
-<!-- ..............................Home_client................................ -->
 
-    <template id="home_client_dashboard">
-        <div class="container">   
-            <div class="mb-5 ml-5 mt-5">
-                <div class="row">
-                    <div class="col-sm-6"><br></br>
-                        <h3><font color="orange">Our staff available for you</font> </h3><br></br>
-                        <h1><font color="orange">Get Service at home</font></h1><br></br>
-                       
-                        <button  class="btn btn-dark">Get started</button>
-                        <button  class="btn btn-danger ml-3">Jobs</button>
-                    </div>
-                    <div class="col-sm-6">
-                        <img src="static/images/eng.jpg" class="img-fluid mt-2 rounded zoom" alt="Responsive image"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </template>
-
-<!-- ..............................Header client ................................ -->
-
-    <template id="header_client">
-        <t t-call="web.layout">        
-             <nav class="navbar navbar-expand-md  navbar-light bg-info">
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <!-- <t t-if="state.user_id and state.is_valid">
-                            <t t-if="state.role === 'engineer'"> -->
-                                <!-- <a class="navbar-brand" t-on-click="HomeEngineer">LOGO</a>
-                                    <li class="nav-item active">
-                                       <button class="nav-link btn-warning mr-2" t-on-click="HomeEngineer">Home</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="jobs">Jobs</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link btn-warning mr-2" href="#" t-att-id="state.user_id" t-on-click="Engineer_profile">Profile</button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link btn-warning ml-3" href="#" t-on-click="logout">Logout</button>
-                                    </li>  -->
-                            <!-- </t> -->
-                         <!--    <t t-else=""> -->
-                            <a class="navbar-brand" onClick="location.href='/home_client'">LOGO</a>
-                                <li class="nav-item active">
-                                   <button class="nav-link btn-warning mr-2" onClick="location.href='/home_client'">Home</button>
-                                </li>
-                                <li class="nav-item">
-                                        <button class="nav-link btn-warning mr-2" onClick="location.href='/client_Engineer_list'">Engineers</button>
-                                </li>
-                                <li class="nav-item">
-                                        <button class="nav-link btn-warning mr-2" onClick="location.href='/orders'">Orders</button>
-                                </li>
-                                <li class="nav-item">
-                                    <button class="nav-link btn-warning mr-2" onClick="location.href='/client_profile'">Profile</button>
-                                </li>
-                                <li class="nav-item">
-                                    <button class="nav-link btn-warning ml-3" onClick="location.href='/home'">Logout</button>
-                                </li>
-                         <!--    </t>
-                            <li style="margin-left: 700px;">
-                                <h5> <t t-esc="'welcome '+state.fname" /></h5>
-                            </li>
-                        </t>     
-                        <t t-else=""> -->
-                           <!--  <a class="navbar-brand" t-on-click="Home">LOGO</a>
-                            <li class="nav-item active">
-                               <button class="nav-link btn-warning mr-2" onClick="location.href='/home'">Home</button>
-                            </li>
-                            <li class="nav-item">
-                                <button class="nav-link btn-warning mr-2" href="#" onClick="location.href='/login'">Login</button>
-                            </li>
-                            <li class="nav-item">
-                                <button class="nav-link btn-warning mr-2" href="#" onClick="location.href='/signup'">Signup</button>
-                            </li>
-                         -->
-                        <!-- </t> -->
-                    </ul>
-                    
-                </div>
-            </nav>
-        </t>
-    </template>
     
 <!-- ..................................client Engineer list......................... -->
 
     <template id="client_Engineer_list">
         <t t-call="web.layout">        
-        <t t-call="Engineer_as_a_service.header_client"/>
+        <t t-call="Engineer_as_a_service.header"/>
             <div class="container">  
                 <div class="mt-5 mb-5">
                    <h1>Engineers list </h1> 
@@ -368,13 +324,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                                <!-- <t t-foreach="state.data" t-as="i"> -->
+                            <!-- <t t-foreach="state.data" t-as="i"> -->
                             <tr t-foreach="engineer_list" t-as="data">
                                         <td><t t-esc="data.id"/></td>
                                         <td><t t-esc="data.name"/></td>
                                         <td><t t-esc="data.mobile_no"/></td>
                                         <td><t t-esc="data.specialist"/></td>
-                                        <td><a type="submit" class="btn btn-danger text-white">Book</a></td>
+                                        <td><a class="btn btn-danger text-white" t-att-href="'/book_engineer/%s/%s' % (data.id,request.session.get('user_id'))">Book</a></td>
                                         <td><a class="btn btn-success" t-att-href="'/view_engineer_deatail/%s' % data.id">View</a></td>
                                     </tr>
                                 <!-- </t> -->
@@ -389,7 +345,7 @@
 
     <template id="view_engineer_detail">
         <t t-call="web.layout">        
-        <t t-call="Engineer_as_a_service.header_client"/>
+        <t t-call="Engineer_as_a_service.header"/>
             <div>
                 <h4 class="container mt-3 mb-3">Engineer Detail</h4>
             </div>
@@ -436,7 +392,7 @@
 
     <template id="orders">
         <t t-call="web.layout">        
-        <t t-call="Engineer_as_a_service.header_client"/>
+        <t t-call="Engineer_as_a_service.header"/>
             <div class="container">  
                 <div class="mt-5 mb-5">
                    <h1>Orders list </h1> 
@@ -453,19 +409,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                                <!-- <t t-foreach="state.data" t-as="task" t-key="task.id"> -->
+                                <t t-foreach="order_list" t-as="order" t-key="order.id">
                                     <tr>
-                                        <td>1</td>
-                                        <td>kishan Rathod</td>
+                                        <td><t t-esc="order.id"/></td>
+                                        <td><t t-esc="order.engineer_id.name"/></td>
                                         <td>
-                                            05/12/1998
+                                            <t t-esc="order.create_date.day"/>/
+                                            <t t-esc="order.create_date.month"/>/
+                                            <t t-esc="order.create_date.year"/>
                                         </td>
                                         <td>
-                                            15:30   
+                                            <t t-esc="order.create_date.hour"/>:
+                                            <t t-esc="order.create_date.minute"/> 
                                         </td>
                                         <td><button type="submit" class="btn btn-success">View</button></td>
                                     </tr>
-                                <!-- </t> -->
+                                </t>
                         </tbody>
                     </table>
                 </div>      
@@ -477,7 +436,7 @@
 <!-- .............................. profile ..................... -->
     <template id="client_profile">
         <t t-call="web.layout">        
-        <t t-call="Engineer_as_a_service.header_client"/>
+        <t t-call="Engineer_as_a_service.header"/>
             <div class="d-flex justify-content-center mt-5">
                 <div class="card text-center" style="width:35em;">
                     <div class="card-header">
