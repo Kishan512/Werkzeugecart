@@ -1,3 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_user_list,access_user_list,model_user_list,base.group_user,1,1,1,1
+access_engineer,access_engineer,Engineer_as_a_service.model_engineer,Engineer_as_a_service.group_engineer,1,1,1,1
+access_client,access_client,Engineer_as_a_service.model_client,Engineer_as_a_service.group_client,1,1,1,1
 access_orders,access_orders,model_orders,base.group_user,1,1,1,1
+
+

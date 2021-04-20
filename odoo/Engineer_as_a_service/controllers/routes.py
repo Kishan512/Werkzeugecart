@@ -3,7 +3,6 @@ from odoo.http import request
 
 
 class Main(http.Controller):
-
     @http.route('/home', type="http")
     def mypath(self, **kwargs):
         request.session.get('user_id') and request.session.pop('user_id')
@@ -18,14 +17,26 @@ class Main(http.Controller):
     @http.route('/login_submit', type="http")
     def login_submit(self, **kwargs):
         # print(kwargs['email'])
-        res = request.env['user.list'].search([('email', '=', kwargs.get('email')),('password', '=', kwargs.get('password'))])
+        res_eng = request.env['engineer'].search([('email', '=', kwargs.get('email')),('password', '=', kwargs.get('password'))])
+        res_cli = request.env['client'].search([('email', '=', kwargs.get('email')),('password', '=', kwargs.get('password'))])
+        
+
         # import pdb; pdb.set_trace()
-        if len(res):
-            request.session['user_id'] = res.id
-            request.session['user_name'] = res.name
-            request.session['role'] = res.role
-            print(request.session['role'])
-            return request.render('Engineer_as_a_service.home_client')
+        if len(res_eng) or len(res_cli):
+            if len(res_eng):
+
+                request.session['user_id'] = res_eng.id
+                request.session['user_name'] = res_eng.name
+                request.session['role'] = res_eng.role
+                print("print from ;engineer" + request.session['user_name'])
+                return request.render('Engineer_as_a_service.home_client')
+            else:
+                request.session['user_id'] = res_cli.id
+                request.session['user_name'] = res_cli.name
+                request.session['role'] = res_cli.role
+                print("print from client" + request.session['user_name'])
+
+                return request.render('Engineer_as_a_service.home_client')
         else:
             return http.local_redirect('/login')
 
@@ -47,15 +58,13 @@ class Main(http.Controller):
     @http.route('/signup_submit', type="http", method="POST", csrf=False)
     def signup_submit(self, **kwargs):
         # import pdb; pdb.set_trace()
-        request.env['user.list'].create({
+        request.env['client'].create({
             'role': "client",
             'email': kwargs.get("email"),
             'name': kwargs.get("fname"),
             'password': kwargs.get("password"),
             'address': kwargs.get("address"),
             'mobile_no': kwargs.get("mobno"),
-            'specialist': kwargs.get("specialist"),
-            'experience': kwargs.get("experience"),
             })
         return http.local_redirect('/login')
 
@@ -63,7 +72,7 @@ class Main(http.Controller):
     def engineer_signup_submit(self, **kwargs):
         # print(kwargs)
         # import pdb; pdb.set_trace()
-        request.env['user.list'].create({
+        request.env['engineer'].create({
             'role': "engineer",
             'email': kwargs.get("email"),
             'name': kwargs.get("fname"),
@@ -84,12 +93,12 @@ class Main(http.Controller):
 
     @http.route('/client_Engineer_list', type="http")
     def client_Engineer_list(self, **kwargs):
-        engineer_list = request.env['user.list'].search([('role', '=', 'engineer')])
+        engineer_list = request.env['engineer'].search([('role', '=', 'engineer')])
         return request.render('Engineer_as_a_service.client_Engineer_list',{'engineer_list' : engineer_list})
         
     @http.route('/view_engineer_deatail/<int:engineer_id>', type="http")
     def view_engineer_deatail(self,engineer_id, **kwargs):
-        engineer_list = request.env['user.list'].browse(engineer_id)
+        engineer_list = request.env['engineer'].browse(engineer_id)
         return request.render('Engineer_as_a_service.view_engineer_detail',{'engineer_list' : engineer_list})
     
     @http.route('/book_engineer/<int:engineer_id>/<int:client_id>', type="http")
