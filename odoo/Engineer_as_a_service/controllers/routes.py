@@ -97,7 +97,8 @@ class Main(http.Controller):
     def book_engineer(self,engineer_id,client_id, **kwargs):
         request.env['orders'].create({
             'engineer_id' : engineer_id,
-            'client_id' : client_id
+            'client_id' : client_id,
+            'order_status' : "1"
         })  
         return request.render('Engineer_as_a_service.home_client')
 
@@ -109,7 +110,7 @@ class Main(http.Controller):
     
     @http.route('/orders', type="http")
     def orders(self, **kwargs):
-        order_list = request.env['orders'].search([('client_id', '=', request.session.get('user_id'))])
+        order_list = request.env['orders'].search([('client_id', '=', request.session.get('user_id'))],order="create_date desc")
         return request.render('Engineer_as_a_service.orders',{'order_list':order_list})
 
     @http.route('/view_order_deatail/<int:order_id>', type="http")
@@ -136,6 +137,32 @@ class Main(http.Controller):
     def view_jobs_detail(self,order_id, **kwargs):
         order_detail = request.env['orders'].browse(order_id)
         return request.render('Engineer_as_a_service.view_jobs_detail',{'order_detail' : order_detail})
+
+    
+    @http.route('/job_status_change/<int:order_id>/<string:status>', type="http")
+    def job_status_change(self,order_id,status, **kwargs):
+        print(status)
+        if status == "accept":    
+            order = request.env['orders'].browse(order_id)
+            if order:
+                order.write({
+                    'order_status' : "2"
+                })
+        elif status == "decline":
+            order = request.env['orders'].browse(order_id)
+            if order:
+                order.write({
+                    'order_status' : "0"
+                })
+        elif status == "delivered":
+            order = request.env['orders'].browse(order_id)
+            if order:
+                order.write({
+                    'order_status' : "3"
+                })
+
+                
+        return request.render('Engineer_as_a_service.home_client')
 
     @http.route('/Engineer_profile', type="http")
     def Engineer_profile(self, **kwargs):

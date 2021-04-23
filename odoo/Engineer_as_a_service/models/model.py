@@ -35,6 +35,7 @@ class orders(models.Model):
     # order_id = fields.Integer(string="order_id")
     engineer_id = fields.Many2one('engineer', string="engineer_id")
     client_id = fields.Many2one('client', string="client_id")
+    order_status = fields.Char(string="status")
     # user_id = fields.One2many('user.list', 'id', string="user record")
 
 

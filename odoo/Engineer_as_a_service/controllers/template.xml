@@ -12,18 +12,20 @@
 <!-- ................................ home........................................-->
 
     <template id="dashboard">
-        <div class="mb-5 ml-5 mt-5">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h3><font color="orange"> Best Solution of your Product</font> </h3><br></br>
-                    <h1><font color="orange">We have the amzing staff of engineer</font></h1><br></br>
-                   
-                    <button t-on-click="Signup" class="btn btn-dark">Get started</button>
-                    <button t-on-click="Login" class="btn btn-danger ml-3">Login</button>
+        <div class="container">
+            <div class="mb-5 ml-5 mt-5">
+                <div class="row">
+                    <div class="col-sm-6 mt-5">
+                        <h3><font color="orange"> Best Solution of your Product</font> </h3><br></br>
+                        <h1><font color="orange">We have the amzing staff of engineer</font></h1><br></br>
+                       
+                        <button class="btn btn-dark" onClick="location.href='/signup'">Get started</button>
+                        <button class="btn btn-danger ml-3" onClick="location.href='/login'">Login</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <img src="/Engineer_as_a_service/static/images/engineer.jpg" class="img-fluid mt-2 rounded zoom" alt="Responsive image"/>
+                    </div>   
                 </div>
-                <div class="col-sm-6">
-                    <img src="static/images/engineer.jpg" class="img-fluid mt-5 rounded zoom" alt="Responsive image"/>
-                </div>   
             </div>
         </div>
     </template>
@@ -298,7 +300,7 @@
                                 <button  class="btn btn-danger ml-3">Jobs</button>
                             </div>
                             <div class="col-sm-6">
-                                <img src="static/images/eng.jpg" class="img-fluid mt-2 rounded zoom" alt="Responsive image"/>
+                                <img src="/Engineer_as_a_service/static/images/eng.jpg" class="img-fluid mt-2 rounded zoom" alt="Responsive image"/>
                             </div>
                         </div>
                     </div>
@@ -417,9 +419,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                                <t t-set="sr_no" t-value="1"/>
                                 <t t-foreach="order_list" t-as="order" t-key="order.id">
                                     <tr>
-                                        <td><t t-esc="order.id"/></td>
+                                        <td><t t-esc="sr_no"/></td>
                                         <td><t t-esc="order.engineer_id.name"/></td>
                                         <td>
                                             <t t-esc="order.create_date.day"/>/
@@ -431,8 +434,8 @@
                                             <t t-esc="order.create_date.minute"/> 
                                         </td>
                                         <td><a class="btn btn-success" t-att-href="'/view_order_deatail/%s' % order.id">View</a></td>
-
                                     </tr>
+                                    <t t-set="sr_no" t-value="sr_no+1"/>
                                 </t>
                         </tbody>
                     </table>
@@ -496,6 +499,30 @@
                             <td>experience</td>
                             <td><t t-esc="order.engineer_id.experience"/></td>
                         </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <table class="table table-striped mt-2">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th>Order Staus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="order_list" t-as="order">
+                            <tr>
+                                <td>
+                                    <t t-if="order.order_status=='1'">
+                                        Pending        
+                                    </t>
+                                    <t t-if="order.order_status=='2'">
+                                        Accepted
+                                    </t>
+                                    <t t-if="order.order_status=='3'">
+                                         Delivered
+                                    </t>   
+                                </td>
+                            </tr>
                         </t>
                     </tbody>
                 </table>
@@ -641,12 +668,44 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Address</td>
+                            <td><t t-esc="order.client_id.address"/></td>
+                        </tr>
+                        <tr>
                             <td>Mobile No</td>
                             <td><t t-esc="order.client_id.mobile_no"/></td>
+                        </tr>
+                        <tr>
+                            <t t-if="order.order_status=='0'">
+                                <td>Order Status</td>
+                                <td>Order rejected</td>
+                            </t>
+                            <t t-if="order.order_status=='1'">
+                                <td>Order Status</td>
+                                <td>Pending</td>
+                            </t>
+                            <t t-if="order.order_status=='2'">
+                                <td>Order Status</td>
+                                <td>Accepted</td>
+                            </t>
+                            <t t-if="order.order_status=='3'">
+                                <td>Order Status</td>
+                                <td>Delivered</td>
+                            </t>
                         </tr>
                         </t>
                     </tbody>
                 </table>
+                <t t-foreach="order_detail" t-as="order">
+                    <t t-if="order.order_status=='1'">
+                        <a class="btn btn-success mr-4" t-att-href="'/job_status_change/%s/accept' % order.id">Accept</a>
+                        <a class="btn btn-danger" t-att-href="'/job_status_change/%s/decline' % order.id">Decline</a>
+                    </t>
+                    <t t-if="order.order_status=='2'">
+                        Click here to change the status to delivered:
+                        <a class="btn btn-danger" t-att-href="'/job_status_change/%s/delivered' % order.id">Delivered</a>
+                    </t>
+                </t>
             </div>
             <t t-call="Engineer_as_a_service.footer"/>
         </t>
