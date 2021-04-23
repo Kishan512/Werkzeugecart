@@ -584,7 +584,7 @@
                        <h1>Job Arrives List </h1> 
                     </div>
                     <div>
-                        <table class="table" style="width:60%">
+                        <table class="table" style="width:80%">
                             <thead>
                                 <tr>
                                     <th>Order Id</th>
@@ -592,6 +592,7 @@
                                     <th>Mobile No</th>
                                     <th>Job Date</th>
                                     <th>Job Time</th>
+                                    <th>status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -612,7 +613,21 @@
                                                 <t t-esc="job.create_date.hour"/>:
                                                 <t t-esc="job.create_date.minute"/>
                                             </td>
-                                            <td><a class="btn btn-success" t-att-href="'/view_jobs_detail/%s' % job.id">View</a></td>
+                                            <t t-if="job.order_status=='0'">
+                                                <td class="btn btn-danger">rejected</td>
+                                            </t>
+                                            <t t-if="job.order_status=='1'">
+                                                <td class="btn btn-warning">Pending</td>
+                                            </t>
+                                            <t t-if="job.order_status=='2'">
+                                                <td class="btn btn-info">Accepted</td>
+                                            </t>
+                                            <t t-if="job.order_status=='3'">
+                                                <td class="btn btn-success">Delivered</td>
+                                            </t>
+                                            <td>
+                                                <a class="btn btn-outline-secondary" t-att-href="'/view_jobs_detail/%s' % job.id">View</a>
+                                            </td>
                                         </tr>
                                     <t t-set="sr_no" t-value="sr_no+1"/>
                                     </t>

@@ -130,7 +130,7 @@ class Main(http.Controller):
 
     @http.route('/jobs', type="http")
     def jobs(self, **kwargs):
-        client_detail = request.env['orders'].search([('engineer_id', '=', request.session.get('user_id'))])
+        client_detail = request.env['orders'].search([('engineer_id', '=', request.session.get('user_id'))],order="create_date desc")
         return request.render('Engineer_as_a_service.jobs',{'jobs' : client_detail})
 
     @http.route('/view_jobs_detail/<int:order_id>', type="http")
