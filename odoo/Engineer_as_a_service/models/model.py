@@ -11,20 +11,9 @@ class engineer(models.Model):
     mobile_no = fields.Char(string="mobile_no")
     password = fields.Char(string="password")
     address = fields.Char(string="Address")           
-    session = fields.Char(string="session")
     specialist = fields.Char(string="specialist")
     experience  = fields.Char(string="experience")
-    # birthday = fields.Date(string="Birthday", required=True)
-    # age = fields.Integer(compute="calculate_age", store=True)
-    # gender = fields.Selection([('male', 'Male'), ('female', 'Female')], default="male")
-    # physics = fields.Integer()
-    # chemistry = fields.Integer()
-    # total = fields.Integer(string="Total")
-    # average = fields.Float()
-    # total_compute = fields.Integer(compute="_compute_total", store=True)
-    # sem_fee = fields.Integer(string="Fee per semester")
-    # enrollment_no = fields.Integer(string="Enrollment number")
-    # branch = fields.Char(string="Branch")
+ 
 
 class client(models.Model):
     _name = 'client'
@@ -45,7 +34,7 @@ class orders(models.Model):
 
     # order_id = fields.Integer(string="order_id")
     engineer_id = fields.Many2one('engineer', string="engineer_id")
-    client_id = fields.Many2one('orders', string="client_id")
+    client_id = fields.Many2one('client', string="client_id")
     # user_id = fields.One2many('user.list', 'id', string="user record")
 
 

@@ -4,7 +4,7 @@ from odoo.http import request
 
 class Main(http.Controller):
     @http.route('/home', type="http")
-    def mypath(self, **kwargs):
+    def home(self, **kwargs):
         request.session.get('user_id') and request.session.pop('user_id')
         request.session.get('user_name') and request.session.pop('user_name')
         # students = request.env['user.list'].search([])
@@ -84,22 +84,14 @@ class Main(http.Controller):
             })
         return http.local_redirect('/login')
 
-    # @http.route('/delete/<model("user.list"):std>', type="http")
-    # def delete(self, std=None, **kwargs):
-    #     # print(std)    
-    #     # import pdb; pdb.set_trace()
-    #     std.unlink()
-    #     return http.local_redirect('/mypath')
+
+# -------------------------------client side--------------------------------------
+
 
     @http.route('/client_Engineer_list', type="http")
     def client_Engineer_list(self, **kwargs):
         engineer_list = request.env['engineer'].search([('role', '=', 'engineer')])
         return request.render('Engineer_as_a_service.client_Engineer_list',{'engineer_list' : engineer_list})
-        
-    @http.route('/view_engineer_deatail/<int:engineer_id>', type="http")
-    def view_engineer_deatail(self,engineer_id, **kwargs):
-        engineer_list = request.env['engineer'].browse(engineer_id)
-        return request.render('Engineer_as_a_service.view_engineer_detail',{'engineer_list' : engineer_list})
     
     @http.route('/book_engineer/<int:engineer_id>/<int:client_id>', type="http")
     def book_engineer(self,engineer_id,client_id, **kwargs):
@@ -109,16 +101,43 @@ class Main(http.Controller):
         })  
         return request.render('Engineer_as_a_service.home_client')
 
+    @http.route('/view_engineer_deatail/<int:engineer_id>', type="http")
+    def view_engineer_deatail(self,engineer_id, **kwargs):
+        engineer_list = request.env['engineer'].browse(engineer_id)
+        return request.render('Engineer_as_a_service.view_engineer_detail',{'engineer_list' : engineer_list})
 
     
     @http.route('/orders', type="http")
     def orders(self, **kwargs):
         order_list = request.env['orders'].search([('client_id', '=', request.session.get('user_id'))])
         return request.render('Engineer_as_a_service.orders',{'order_list':order_list})
+
+    @http.route('/view_order_deatail/<int:order_id>', type="http")
+    def view_order_deatail(self,order_id, **kwargs):
+        order_list = request.env['orders'].browse(order_id)
+        return request.render('Engineer_as_a_service.view_order_deatail',{'order_list' : order_list})
         
     @http.route('/client_profile', type="http")
     def client_profile(self, **kwargs):
-        return request.render('Engineer_as_a_service.client_profile')
+        profile = request.env['client'].search([('id', '=', request.session.get('user_id'))])
+        return request.render('Engineer_as_a_service.client_profile',{'profile' : profile})
 
 
-        
+
+# --------------------------------Engineer side----------------------------------
+
+
+    @http.route('/jobs', type="http")
+    def jobs(self, **kwargs):
+        client_detail = request.env['orders'].search([('engineer_id', '=', request.session.get('user_id'))])
+        return request.render('Engineer_as_a_service.jobs',{'jobs' : client_detail})
+
+    @http.route('/view_jobs_detail/<int:order_id>', type="http")
+    def view_jobs_detail(self,order_id, **kwargs):
+        order_detail = request.env['orders'].browse(order_id)
+        return request.render('Engineer_as_a_service.view_jobs_detail',{'order_detail' : order_detail})
+
+    @http.route('/Engineer_profile', type="http")
+    def Engineer_profile(self, **kwargs):
+        profile = request.env['engineer'].search([('id', '=', request.session.get('user_id'))])
+        return request.render('Engineer_as_a_service.Engineer_profile',{'profile' : profile})

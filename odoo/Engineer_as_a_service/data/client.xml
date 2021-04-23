@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="client" model="client">
+            <field name="role">client</field>
+            <field name="email">sam@gmail.Com</field>
+            <field name="name">sam mankad</field>
+            <field name="mobile_no">9685274185</field>
+            <field name="password">12345</field>
+            <field name="address">ahmedabad</field>
+        </record>
+        <record id="client2" model="client">
+            <field name="role">client</field>
+            <field name="email">bunny@gmail.Com</field>
+            <field name="name">Juber jangad</field>
+            <field name="mobile_no">96385274</field>
+            <field name="password">12345</field>
+            <field name="address">botad</field>
+        </record>
+        <record id="client3" model="client">
+            <field name="role">client</field>
+            <field name="email">mahir@gmail.Com</field>
+            <field name="name">Mahir vadiya</field>
+            <field name="mobile_no">741855296</field>
+            <field name="password">12345</field>
+            <field name="address">botad</field> 
+        </record>
+        <record id="client4" model="client">
+            <field name="role">client</field>
+            <field name="email">afraz@gmail.Com</field>
+            <field name="name">Afraz Khambhati</field>
+            <field name="mobile_no">8524596385</field>
+            <field name="password">12345</field>
+            <field name="address">botad</field>
+        </record>
+        <record id="client5" model="client">
+            <field name="role">client</field>
+            <field name="email">akil@gmail.Com</field>
+            <field name="name">Akil Selath</field>
+            <field name="mobile_no">7418545963</field>
+            <field name="password">12345</field>
+            <field name="address">Botad</field>
+        </record>
+    </data>
+    
+</odoo>

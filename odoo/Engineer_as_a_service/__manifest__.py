@@ -14,7 +14,8 @@
     'data' : [
         'security/security.xml',
         'security/ir.model.access.csv',
-        # 'data/data.xml',
+        'data/engineer.xml',
+        'data/client.xml',
         'controllers/template.xml',
         'controllers/assests.xml',
     ],

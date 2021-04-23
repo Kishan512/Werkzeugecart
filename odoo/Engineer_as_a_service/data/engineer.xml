@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="engineer" model="engineer">
+            <field name="role">engineer</field>
+            <field name="email">kishan@gmail.Com</field>
+            <field name="name">kishan Rathod</field>
+            <field name="mobile_no">9685274185</field>
+            <field name="password">12345</field>
+            <field name="address">Botad</field>
+            <field name="specialist">mobile Repairing</field>   
+            <field name="experience">3 years</field>   
+        </record>
+        <record id="engineer1" model="engineer">
+            <field name="role">engineer</field>
+            <field name="email">nimesh@gmail.Com</field>
+            <field name="name">Nimesh Paramar</field>
+            <field name="mobile_no">96385274</field>
+            <field name="password">12345</field>
+            <field name="address">gadhada</field>
+            <field name="specialist">software r3epairing</field>   
+            <field name="experience">5 years</field>   
+        </record>
+        <record id="engineer2" model="engineer">
+            <field name="role">engineer</field>
+            <field name="email">mayur@gmail.Com</field>
+            <field name="name">Mayur Khanya</field>
+            <field name="mobile_no">789456852</field>
+            <field name="password">12345</field>
+            <field name="address">surat</field>
+            <field name="specialist">pc repairing</field>   
+            <field name="experience">3 years</field>   
+        </record>
+        <record id="engineer3" model="engineer">
+            <field name="role">engineer</field>
+            <field name="email">vishal@gmail.Com</field>
+            <field name="name">Vishal Bhavasar</field>
+            <field name="mobile_no">741854596</field>
+            <field name="password">12345</field>
+            <field name="address">gandhinagar</field>
+            <field name="specialist">electric Repairing</field>   
+            <field name="experience">3 years</field>   
+        </record>
+        <record id="engineer4" model="engineer">
+            <field name="role">engineer</field>
+            <field name="email">shailesh@gmail.Com</field>
+            <field name="name">Shailesh Undaviya</field>
+            <field name="mobile_no">9685274185</field>
+            <field name="password">12345</field>
+            <field name="address">Botad</field>
+            <field name="specialist">Repairing</field>   
+            <field name="experience">10 years</field>   
+        </record>
+    </data>
+    
+</odoo>
