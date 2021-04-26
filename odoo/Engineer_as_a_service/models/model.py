@@ -39,3 +39,15 @@ class orders(models.Model):
     # user_id = fields.One2many('user.list', 'id', string="user record")
 
 
+class job_work_detail(models.Model):
+    _name = 'job_work_detail'
+    _description = "orders/job detail"
+
+    order_id = fields.Many2one('orders', string="order_id")
+    product_name = fields.Char(string="product_name")
+    product_problem = fields.Char(string="product_problem")
+    job_address = fields.Char(string="job_address")
+    
+    # user_id = fields.One2many('user.list', 'id', string="user record")
+
+

@@ -340,7 +340,7 @@
                                         <td><t t-esc="data.name"/></td>
                                         <td><t t-esc="data.mobile_no"/></td>
                                         <td><t t-esc="data.specialist"/></td>
-                                        <td><a class="btn btn-danger text-white" t-att-href="'/book_engineer/%s/%s' % (data.id,request.session.get('user_id'))">Book</a></td>
+                                        <td><a class="btn btn-danger text-white" t-att-href="'/book/%s/%s' % (data.id,request.session.get('user_id'))">Book</a></td>
                                         <td><a class="btn btn-success" t-att-href="'/view_engineer_deatail/%s' % data.id">View</a></td>
                                     </tr>
                                 <!-- </t> -->
@@ -353,6 +353,36 @@
         </t>
     </template>
 
+<!-- ..............................................book..................................... -->
+
+<template id="book">
+        <t t-call="web.layout">        
+            <t t-call="Engineer_as_a_service.header"/>
+            <div class="container mt-5">
+                <h1 class="mb-4">book Engineer</h1>
+                <form  t-attf-action="/book_engineer/{{engineer_id}}/{{client_id}}">
+
+                        <div class="form-group">
+                            <label for="ProductName">Product Name:</label>
+                            <input type="text" class="form-control" name="pname" placeholder="Product Name" required="true"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="Productproblem">Product Problem:</label>
+                            <input type="text" class="form-control" name="pproblem" placeholder="Product Problem" required="true"/>
+                        </div>
+                        <label for="ProductName">Pickup Address:</label>
+                            <input type="text" class="form-control" name="address" placeholder="Product Pickup address" required="true"/>
+                        <div class="text text-danger"><!-- <t t-esc="state.invalid"/> --></div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+
+                </form>
+            </div>
+            <t t-call="Engineer_as_a_service.footer"/>
+        </t>
+    </template>
+
+
+<!-- .........................................view engineer detail .............................. -->
     <template id="view_engineer_detail">
         <t t-call="web.layout">        
         <t t-call="Engineer_as_a_service.header"/>
@@ -648,7 +678,7 @@
         <t t-call="Engineer_as_a_service.header"/>
             <div class="container mt-5">
                 <div>
-                    <h3 class="container mb-5" style="font-size:36px;">Service Job Detail</h3>
+                    <h3 class="container mb-3" style="font-size:36px;">Service job client detail</h3>
                 </div>
                 <table class="table table-striped">
                     <thead class="bg-dark text-white">
@@ -659,55 +689,87 @@
                     </thead>
                     <tbody>
                         <t t-foreach="order_detail" t-as="order">
+                            <tr>
+                                <td>Id</td>
+                                <td><t t-esc="order.id"/></td>
+                            </tr>
+                            <tr>
+                                <td>Name</td>
+                                <td><t t-esc="order.client_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td>Address</td>
+                                <td><t t-esc="order.client_id.address"/></td>
+                            </tr>
+                            <tr>
+                                <td>Mobile No</td>
+                                <td><t t-esc="order.client_id.mobile_no"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                
+
+                <div>
+                    <h3 class="container mb-3 mt-5" style="font-size:36px;">Service Job detail</h3>
+                </div>
+
+                <table class="table table-striped">
+                    <thead class="bg-dark text-white">
                         <tr>
-                            <td>Id</td>
-                            <td><t t-esc="order.id"/></td>
+                            <th data-field="key" scope="col" class="key">Key</th>
+                            <th data-field="value" scope="col">Value</th>
                         </tr>
-                        <tr>
-                            <td>Name</td>
-                            <td><t t-esc="order.client_id.name"/></td>
-                        </tr>
-                         <tr>
-                            <td>Order Date</td>
-                            <td>
-                                <t t-esc="order.create_date.day"/>/
-                                <t t-esc="order.create_date.month"/>/
-                                <t t-esc="order.create_date.year"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Order Time</td>
-                            <td>
-                                <t t-esc="order.create_date.hour"/>:
-                                <t t-esc="order.create_date.minute"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Address</td>
-                            <td><t t-esc="order.client_id.address"/></td>
-                        </tr>
-                        <tr>
-                            <td>Mobile No</td>
-                            <td><t t-esc="order.client_id.mobile_no"/></td>
-                        </tr>
-                        <tr>
-                            <t t-if="order.order_status=='0'">
-                                <td>Order Status</td>
-                                <td>Order rejected</td>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="product_detail" t-as="product">
+                            <tr>
+                                <td>Product Name</td>
+                                <td><t t-esc="product.product_name"/></td>
+                            </tr>
+                            <tr>
+                                <td>Product Problem</td>
+                                <td><t t-esc="product.product_problem"/></td>
+                            </tr>
+                             <tr>
+                                <td>Order Date</td>
+                                <td>
+                                    <t t-esc="product.create_date.day"/>/
+                                    <t t-esc="product.create_date.month"/>/
+                                    <t t-esc="product.create_date.year"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Order Time</td>
+                                <td>
+                                    <t t-esc="product.create_date.hour"/>:
+                                    <t t-esc="product.create_date.minute"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Product Pickup Address</td>
+                                <td><t t-esc="product.job_address"/></td>
+                            </tr>
+                            <t t-foreach="order_detail" t-as="order">
+                                <tr>
+                                    <t t-if="order.order_status=='0'">
+                                        <td>Order Status</td>
+                                        <td>Order rejected</td>
+                                    </t>
+                                    <t t-if="order.order_status=='1'">
+                                        <td>Order Status</td>
+                                        <td>Pending</td>
+                                    </t>
+                                    <t t-if="order.order_status=='2'">
+                                        <td>Order Status</td>
+                                        <td>Accepted</td>
+                                    </t>
+                                    <t t-if="order.order_status=='3'">
+                                        <td>Order Status</td>
+                                        <td>Delivered</td>
+                                    </t>
+                                </tr>
                             </t>
-                            <t t-if="order.order_status=='1'">
-                                <td>Order Status</td>
-                                <td>Pending</td>
-                            </t>
-                            <t t-if="order.order_status=='2'">
-                                <td>Order Status</td>
-                                <td>Accepted</td>
-                            </t>
-                            <t t-if="order.order_status=='3'">
-                                <td>Order Status</td>
-                                <td>Delivered</td>
-                            </t>
-                        </tr>
                         </t>
                     </tbody>
                 </table>
@@ -721,6 +783,10 @@
                         <a class="btn btn-danger" t-att-href="'/job_status_change/%s/delivered' % order.id">Delivered</a>
                     </t>
                 </t>
+
+
+
+
             </div>
             <t t-call="Engineer_as_a_service.footer"/>
         </t>

@@ -93,14 +93,28 @@ class Main(http.Controller):
         engineer_list = request.env['engineer'].search([('role', '=', 'engineer')])
         return request.render('Engineer_as_a_service.client_Engineer_list',{'engineer_list' : engineer_list})
     
+    @http.route('/book/<int:engineer_id>/<int:client_id>', type="http")
+    def book(self,engineer_id,client_id, **kwargs):
+        return request.render('Engineer_as_a_service.book',{'engineer_id' : engineer_id, 'client_id' : client_id })
+
+
     @http.route('/book_engineer/<int:engineer_id>/<int:client_id>', type="http")
     def book_engineer(self,engineer_id,client_id, **kwargs):
-        request.env['orders'].create({
+        order_id = request.env['orders'].create({
             'engineer_id' : engineer_id,
             'client_id' : client_id,
             'order_status' : "1"
         })  
+        request.env['job_work_detail'].create({
+            'order_id' : order_id.id,
+            'product_name': kwargs.get("pname"),
+            'product_problem': kwargs.get("pproblem"),
+            'job_address': kwargs.get("address"),
+        })  
         return request.render('Engineer_as_a_service.home_client')
+
+
+       
 
     @http.route('/view_engineer_deatail/<int:engineer_id>', type="http")
     def view_engineer_deatail(self,engineer_id, **kwargs):
@@ -136,7 +150,8 @@ class Main(http.Controller):
     @http.route('/view_jobs_detail/<int:order_id>', type="http")
     def view_jobs_detail(self,order_id, **kwargs):
         order_detail = request.env['orders'].browse(order_id)
-        return request.render('Engineer_as_a_service.view_jobs_detail',{'order_detail' : order_detail})
+        product_detail = request.env['job_work_detail'].search([('order_id', '=', order_id)])
+        return request.render('Engineer_as_a_service.view_jobs_detail',{'order_detail' : order_detail,'product_detail' : product_detail})
 
     
     @http.route('/job_status_change/<int:order_id>/<string:status>', type="http")
