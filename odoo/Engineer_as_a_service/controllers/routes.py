@@ -130,7 +130,10 @@ class Main(http.Controller):
     @http.route('/view_order_deatail/<int:order_id>', type="http")
     def view_order_deatail(self,order_id, **kwargs):
         order_list = request.env['orders'].browse(order_id)
-        return request.render('Engineer_as_a_service.view_order_deatail',{'order_list' : order_list})
+        product_detail = request.env['job_work_detail'].search([('order_id', '=', order_id)])
+
+
+        return request.render('Engineer_as_a_service.view_order_deatail',{'order_list' : order_list,'product_detail' : product_detail})
         
     @http.route('/client_profile', type="http")
     def client_profile(self, **kwargs):
