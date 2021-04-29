@@ -91,7 +91,13 @@ class Main(http.Controller):
     @http.route('/client_Engineer_list', type="http")
     def client_Engineer_list(self, **kwargs):
         engineer_list = request.env['engineer'].search([('role', '=', 'engineer')])
-        return request.render('Engineer_as_a_service.client_Engineer_list',{'engineer_list' : engineer_list})
+        rating  = []
+        for eng_id in engineer_list:
+            rating_id = request.env['ratings'].search([('engineer_id', '=', eng_id.id)])
+            temp_rating = rating_id.cal_rating()
+            rating.append(temp_rating)
+        print(rating)
+        return request.render('Engineer_as_a_service.client_Engineer_list',{'engineer_list' : engineer_list,'rating':rating})
     
     @http.route('/book/<int:engineer_id>/<int:client_id>', type="http")
     def book(self,engineer_id,client_id, **kwargs):
@@ -119,9 +125,11 @@ class Main(http.Controller):
     @http.route('/view_engineer_deatail/<int:engineer_id>', type="http")
     def view_engineer_deatail(self,engineer_id, **kwargs):
         engineer_list = request.env['engineer'].browse(engineer_id)
-        return request.render('Engineer_as_a_service.view_engineer_detail',{'engineer_list' : engineer_list})
+        rating_id = request.env['ratings'].search([('engineer_id', '=', engineer_id)])
+        rating = rating_id.cal_rating()
+        return request.render('Engineer_as_a_service.view_engineer_detail',{'engineer_list' : engineer_list,'rating':rating})
 
-    
+            
     @http.route('/orders', type="http")
     def orders(self, **kwargs):
         order_list = request.env['orders'].search([('client_id', '=', request.session.get('user_id'))],order="create_date desc")
@@ -131,10 +139,22 @@ class Main(http.Controller):
     def view_order_deatail(self,order_id, **kwargs):
         order_list = request.env['orders'].browse(order_id)
         product_detail = request.env['job_work_detail'].search([('order_id', '=', order_id)])
-
-
         return request.render('Engineer_as_a_service.view_order_deatail',{'order_list' : order_list,'product_detail' : product_detail})
         
+
+    @http.route('/rating', type="http", method="POST",csrf=False)
+    def rating(self, **kwargs):
+        request.env['ratings'].create({
+            'engineer_id': kwargs.get("engineer_id"),
+            'client_id': kwargs.get("client_id"),
+            'order_id': kwargs.get("order_id"),
+            'rating': kwargs.get("rating"),
+            'feedback': kwargs.get("feedback"),
+            })
+
+        return request.render('Engineer_as_a_service.home_client')
+
+
     @http.route('/client_profile', type="http")
     def client_profile(self, **kwargs):
         profile = request.env['client'].search([('id', '=', request.session.get('user_id'))])

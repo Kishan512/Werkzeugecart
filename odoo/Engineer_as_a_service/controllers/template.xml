@@ -2,10 +2,13 @@
     <!-- ............................before login............................. -->
     <!-- ...............................home.............................. -->
     <template id="home">
-    <t t-call="web.layout">        
-        <t t-call="Engineer_as_a_service.header"/>
-        <t t-call="Engineer_as_a_service.dashboard"/>
-        <t t-call="Engineer_as_a_service.footer"/>
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/Engineer_as_a_service/static/css/style.css"/>
+        </xpath>    
+        <t t-call="web.layout">        
+            <t t-call="Engineer_as_a_service.header"/>
+            <t t-call="Engineer_as_a_service.dashboard"/>
+            <t t-call="Engineer_as_a_service.footer"/>
         </t>
     </template>
 
@@ -138,6 +141,9 @@
 <!-- ................................ signup ........................................-->
 
     <template id="signup">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/Engineer_as_a_service/static/css/style.css"/>
+        </xpath>
         <t t-call="web.layout">        
             <t t-call="Engineer_as_a_service.header"/>
                 <div class="container mt-5">
@@ -146,7 +152,7 @@
                         <label for="engineer_signup">Are you want to join as a engineer ? </label>
                         <button type="button" class="btn btn-primary ml-2" onClick="location.href='/signup_engineer'">Engineer</button>
                     </div>
-                    <form action="/signup_submit" method="POST">
+                    <form action="/signup_submit" method="POST" style="background-color: lightblue;">
                         <div id="customer">
                              <h2 class="mb-3">Customer Signup</h2>
                             <div class="form-group">
@@ -199,7 +205,7 @@
                         <label for="engineer_signup">Are you want to join as a customer ? </label>
                         <button type="button" class="btn btn-primary ml-2" onClick="location.href='/signup'">Customer</button>
                     </div>
-                        <form action="/engineer_signup_submit" method="POST">
+                        <form action="/engineer_signup_submit" method="POST" >
                             <div id="engineer">
                                 <h2 class="mb-3">Engineer Signup</h2>
                                 <div class="form-group">
@@ -329,19 +335,24 @@
                                 <th>name</th>
                                 <th>Mobile No</th>
                                 <th>Specialist</th>
+                                <th>Ratings</th>
                                 <th>Action</th>
                                 <th>View</th>
                             </tr>
                         </thead>
                         <tbody>
                             <!-- <t t-foreach="state.data" t-as="i"> -->
-                            <tr t-foreach="engineer_list" t-as="data">
-                                        <td><t t-esc="data.id"/></td>
-                                        <td><t t-esc="data.name"/></td>
-                                        <td><t t-esc="data.mobile_no"/></td>
-                                        <td><t t-esc="data.specialist"/></td>
-                                        <td><a class="btn btn-danger text-white" t-att-href="'/book/%s/%s' % (data.id,request.session.get('user_id'))">Book</a></td>
-                                        <td><a class="btn btn-success" t-att-href="'/view_engineer_deatail/%s' % data.id">View</a></td>
+                            <tr t-foreach="engineer_list" t-as="engineer">
+
+                                        <td><t t-esc="engineer.id"/></td>
+                                        <td><t t-esc="engineer.name"/></td>
+                                        <td><t t-esc="engineer.mobile_no"/></td>
+                                        <td><t t-esc="engineer.specialist"/></td>
+                                        <t t-foreach="rating" t-as="rate">
+                                            <td><t t-esc="rate"/></td>
+                                        </t>    
+                                        <td><a class="btn btn-danger text-white" t-att-href="'/book/%s/%s' % (engineer.id,request.session.get('user_id'))">Book</a></td>
+                                        <td><a class="btn btn-success" t-att-href="'/view_engineer_deatail/%s' % (engineer.id)">View</a></td>
                                     </tr>
                                 <!-- </t> -->
                         </tbody>
@@ -417,7 +428,14 @@
                                 <th>Experience:</th>
                                 <td><t t-esc="data.experience"/></td>
                             </tr>
+                            <tr>
+                                <th>Ratings:</th>
+                                <td><t t-esc="rating"/></td>
+                            </tr>
                         </t>
+                       <!--  <t t-foreach="rating" t-as="=rating">
+                            <t t-esc="rating.rating"/>
+                        </t> -->
                         </table>
                     </div>
                     <div class="card-footer bg-dark texxt-white text-muted">
@@ -464,16 +482,16 @@
                                             <t t-esc="order.create_date.hour"/>:
                                             <t t-esc="order.create_date.minute"/> 
                                         </td>
-                                        <t t-if="order.order_status=='0'">
+                                        <t t-if="order.order_status==0">
                                             <td class="btn btn-danger">rejected</td>
                                         </t>
-                                        <t t-if="order.order_status=='1'">
+                                        <t t-if="order.order_status==1">
                                             <td class="btn btn-warning">Pending</td>
                                         </t>
-                                        <t t-if="order.order_status=='2'">
+                                        <t t-if="order.order_status==2">
                                             <td class="btn btn-info">Accepted</td>
                                         </t>
-                                        <t t-if="order.order_status=='3'">
+                                        <t t-if="order.order_status==3">
                                             <td class="btn btn-success">Delivered</td>
                                         </t>
                                         <td><a class="btn btn-outline-secondary" t-att-href="'/view_order_deatail/%s' % order.id">View</a></td>
@@ -492,6 +510,31 @@
 <!-- ....................................view order detail............................ -->
 
     <template id="view_order_deatail">
+        <style>
+            @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+            .starrating > input {display: none;}  /* Remove radio buttons */
+
+            .starrating > label:before { 
+              content: "\f005"; /* Star */
+              margin: 2px;
+              font-size: 4em;
+              font-family: FontAwesome;
+              display: inline-block; 
+            }
+
+            .starrating > label
+            {
+              color: #222222; /* Start color when not clicked */
+            }
+
+            .starrating > input:checked ~ label
+            { color: #ffca08 ; } /* Set yellow color when star checked */
+
+            .starrating > input:hover ~ label
+            { color: #ffca08 ;  } /* Set yellow color when star hover */
+
+        
+        </style>
         <t t-call="web.layout">        
         <t t-call="Engineer_as_a_service.header"/>
             <div class="container mt-5">
@@ -582,13 +625,13 @@
                                 <tr>
                                     <td>Order Status</td>
                                     <td>
-                                        <t t-if="order.order_status=='1'">
+                                        <t t-if="order.order_status==1">
                                             Pending        
                                         </t>
-                                        <t t-if="order.order_status=='2'">
+                                        <t t-if="order.order_status==2">
                                             Accepted
                                         </t>
-                                        <t t-if="order.order_status=='3'">
+                                        <t t-if="order.order_status==3">
                                              Delivered
                                         </t>   
                                     </td>
@@ -601,7 +644,45 @@
                         </t>
                     </tbody>
                 </table>
+
+
+
+
+              
+
+
+
+                
+
+
+
+
+
             </div>
+            <form t-attf-action="/rating" method="POST"> 
+                <t t-foreach="order_list" t-as="order" t-key="task.id">
+                    <input type="hidden" t-att-value="order_list.id" name="order_id"/> 
+                    <input type="hidden" t-att-value="order_list.engineer_id.id" name="engineer_id"/> 
+                    <input type="hidden" t-att-value="order_list.client_id.id" name="client_id"/> 
+                </t>
+                <h3 class="text-center" alt="Simple">Please give me a rate of my service</h3>
+                <div class="container">                         
+                           <input type="hidden" name=""/>
+                        <div class="form-group starrating risingstar d-flex justify-content-center flex-row-reverse">
+                            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star"></label>
+                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star"></label>
+                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star"></label>
+                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 star"></label>
+                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
+                        </div>
+                        <div class="form-group d-flex justify-content-center">
+                            <textarea class="rounded-0" id="exampleFormControlTextarea1" cols="30" rows="4" placeholder="Describe your experience.." name="feedback"></textarea>
+                        </div>
+                        <div class="form-group d-flex justify-content-center">
+                            <button type="submit" class="btn btn-dark" style="width:30%;">Post</button>
+                        </div>
+                </div>
+            </form>
         <t t-call="Engineer_as_a_service.footer"/>
         </t>
     </template>
@@ -688,16 +769,16 @@
                                                 <t t-esc="job.create_date.hour"/>:
                                                 <t t-esc="job.create_date.minute"/>
                                             </td>
-                                            <t t-if="job.order_status=='0'">
+                                            <t t-if="job.order_status==0">
                                                 <td class="btn btn-danger">rejected</td>
                                             </t>
-                                            <t t-if="job.order_status=='1'">
+                                            <t t-if="job.order_status==1">
                                                 <td class="btn btn-warning">Pending</td>
                                             </t>
-                                            <t t-if="job.order_status=='2'">
+                                            <t t-if="job.order_status==2">
                                                 <td class="btn btn-info">Accepted</td>
                                             </t>
-                                            <t t-if="job.order_status=='3'">
+                                            <t t-if="job.order_status==3">
                                                 <td class="btn btn-success">Delivered</td>
                                             </t>
                                             <td>
@@ -793,19 +874,19 @@
                             </tr>
                             <t t-foreach="order_detail" t-as="order">
                                 <tr>
-                                    <t t-if="order.order_status=='0'">
+                                    <t t-if="order.order_status==0">
                                         <td>Order Status</td>
                                         <td>Order rejected</td>
                                     </t>
-                                    <t t-if="order.order_status=='1'">
+                                    <t t-if="order.order_status==1">
                                         <td>Order Status</td>
                                         <td>Pending</td>
                                     </t>
-                                    <t t-if="order.order_status=='2'">
+                                    <t t-if="order.order_status==2">
                                         <td>Order Status</td>
                                         <td>Accepted</td>
                                     </t>
-                                    <t t-if="order.order_status=='3'">
+                                    <t t-if="order.order_status==3">
                                         <td>Order Status</td>
                                         <td>Delivered</td>
                                     </t>
@@ -815,11 +896,11 @@
                     </tbody>
                 </table>
                 <t t-foreach="order_detail" t-as="order">
-                    <t t-if="order.order_status=='1'">
+                    <t t-if="order.order_status==1">
                         <a class="btn btn-success mr-4" t-att-href="'/job_status_change/%s/accept' % order.id">Accept</a>
                         <a class="btn btn-danger" t-att-href="'/job_status_change/%s/decline' % order.id">Decline</a>
                     </t>
-                    <t t-if="order.order_status=='2'">
+                    <t t-if="order.order_status==2">
                         Click here to change the status to delivered:
                         <a class="btn btn-danger" t-att-href="'/job_status_change/%s/delivered' % order.id">Delivered</a>
                     </t>
