@@ -1,0 +1,32 @@
+<odoo>
+	<data>
+		<record id="student_update_wizard" model="ir.ui.view">
+			<field name="name">student.update.wizard</field>
+			<field name="model">student.update</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<group>
+							<field name="collage_id"/>
+						</group>
+					</group>
+
+					<footer>
+						<button string="update student" name="update_student" type="object" />
+						<button string="Cancel" special="cancel" class="btn btn-info" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="student_update_wizard" model="ir.actions.act_window">
+			<field name="name">Student Update</field>
+			<field name="res_model">student.update</field>
+			<field name="view_mode">form</field>
+			<field name="binding_model_id" ref="model_student"/>
+			<field name="target">new</field>
+		</record>
+
+
+	</data>
+</odoo>

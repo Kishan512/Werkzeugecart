@@ -1,3 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_student,access_student,model_student,,1,1,1,1 
 access_collage,access_collage,model_collage,,1,1,1,1 
+access_hobbies,access_hobbies,model_hobbies,base.group_user,1,1,1,1 
+access_student_update,access_student_update,model_student_update,,1,1,1,1 

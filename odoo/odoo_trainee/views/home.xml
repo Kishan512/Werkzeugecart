@@ -4,13 +4,16 @@
 		<field name="model">student</field>
 		<field name="arch" type="xml">
 			<tree string="student_detail">
-					<field name="email"/>
 					<field name="name"/>
+	                <field name="image" widget="image" class="oe_avatar"/>
+					<field name="email"/>
 					<field name="mobile_no"/>
 					<field name="gender" widget="radio"/>
 					<field name="birthday"/>
 					<field name="address"/>
+					<field name="hobbies" widget="many2many_tags"/>
 					<field name="collage_id"/>	
+	                <field name="avg_marks"/>
 			</tree>
 		</field>
 	</record>
@@ -37,15 +40,42 @@
 		<field name="arch" type="xml">
 			<form string="Student Form">
 				<sheet>
-					<group>
-						<field name="email"/>
-						<field name="name"/>
-						<field name="mobile_no"/>
-						<field name="gender" widget="radio"/>	
-						<field name="birthday"/>
-						<field name="address"/>
-						<field name="collage_id"/>
-					</group>
+					<header>
+						<button name="odoo_trainee.student_update_wizard" string="click to update student" class="oe_highlight" type="action"/>
+	                </header>
+
+	               	<h1><field name="name"/></h1>
+	                <notebook>
+	                    <page string="Personal Details">
+	                        <group>
+	                            <field name="image" widget="image" class="oe_avatar"/>
+	                            <field name="hobbies" widget="many2many_tags"/>
+	                        </group>
+	                        <group>
+	                            <field name="birthday" required='1'/>
+	                            <field name="age"/>
+	                            <field name="gender" widget="radio"/>
+	                            <field name="email"/>
+	                            <field name="address"/>
+	                        </group>
+	                    </page>
+	                    <page string="College Details">
+	                        <group>
+	                            <field name="collage_id"/>
+	                            <field name="enrollment_no"/>
+	                            <field name="mobile_no"/>
+	                        </group>
+	                    </page>
+	                    <page string="Marks Details">
+	                        <group>
+	                            <field name="maths"/>
+	                            <field name="physics"/>
+	                            <field name="chemistry"/>
+	                            <field name="total" readonly="1"/>
+	                            <field name="avg_marks"/>
+	                        </group>
+	                    </page>
+	                </notebook>
 				</sheet>
 			</form>
 		</field>

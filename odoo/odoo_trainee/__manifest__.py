@@ -14,6 +14,7 @@
     'data' : [
         'security/ir.model.access.csv',
         # 'data/data.xml',
+        'wizard/student_update_wizard_view.xml',
         'views/home.xml',
     ],
 
