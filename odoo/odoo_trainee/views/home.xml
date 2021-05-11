@@ -4,13 +4,13 @@
 		<field name="model">student</field>
 		<field name="arch" type="xml">
 			<tree string="student_detail">
+	                <field name="image" widget="image" class="oe_avatar" width="50px"/>
 					<field name="name"/>
-	                <field name="image" widget="image" class="oe_avatar"/>
 					<field name="email"/>
 					<field name="mobile_no"/>
+					<!-- <field name="city"/> -->
 					<field name="gender" widget="radio"/>
 					<field name="birthday"/>
-					<field name="address"/>
 					<field name="hobbies" widget="many2many_tags"/>
 					<field name="collage_id"/>	
 	                <field name="avg_marks"/>
@@ -28,7 +28,6 @@
 				<field name="mobile_no"/>
 				<field name="gender" widget="radio"/>
 				<field name="birthday"/>
-				<field name="address"/>
 				<field name="collage_id"/>
          	</calendar>
         </field>
@@ -56,8 +55,14 @@
 	                            <field name="age"/>
 	                            <field name="gender" widget="radio"/>
 	                            <field name="email"/>
-	                            <field name="address"/>
 	                        </group>
+	                      <!--   <group string="Address">
+	                        	<field name="house_no"/>
+	                            <field name="street"/>
+	                            <field name="area"/>
+	                            <field name="city"/>
+	                            <field name="zip_code"/>
+	                        </group> -->
 	                    </page>
 	                    <page string="College Details">
 	                        <group>

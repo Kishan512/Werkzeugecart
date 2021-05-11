@@ -16,6 +16,7 @@
         # 'data/data.xml',
         'wizard/student_update_wizard_view.xml',
         'views/home.xml',
+        'reports/Student_report.xml',
     ],
 
     'application' : True

@@ -1,16 +1,17 @@
 from odoo import  api,fields, models
 import datetime
+
 class student(models.Model):
     _name = 'student'
     _description = "student detail"
 
     email = fields.Char(string="Email id")
     name = fields.Char(string="Name")
-    image = fields.Binary(sting="image")
+    image = fields.Binary(sting="image",attachment=True)
     gender = fields.Selection([('male','Male'),('female','Female')], default='male')
     birthday = fields.Date(string="DOB", required=True)
     age = fields.Char(compute="compute_age",store="True")
-    address = fields.Text(string="Address")
+    # address = fields.Text(string="Address")
     collage_id = fields.Many2one('collage', string="collage")
     enrollment_no = fields.Integer(string="enrollment_no")
     mobile_no = fields.Char(string="mobile_no")
@@ -43,7 +44,7 @@ class student(models.Model):
     def comput_marks(self):
         for res in self:
             res.total_compute=res.maths + res.physics + res.chemistry
-            res.avg_marks=res.total_compute / 2
+            res.avg_marks=res.total_compute / 3
         
 
     @api.depends('maths','physics','chemistry')
@@ -65,3 +66,13 @@ class hobbies(models.Model):
     _description = "hobbies of studets"
 
     name = fields.Char(string="Name")
+
+# class student_address(models.Model):
+#     _inherit = 'student'
+#     _description = "student address inherit"
+
+#     house_no = fields.Integer(string="House No")
+#     street = fields.Char(string="Street")
+#     area = fields.Char(string="area")
+#     city = fields.Char(string="city")
+#     zip_code = fields.Integer(string="zip_code")
