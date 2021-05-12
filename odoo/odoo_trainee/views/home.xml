@@ -56,13 +56,13 @@
 	                            <field name="gender" widget="radio"/>
 	                            <field name="email"/>
 	                        </group>
-	                      <!--   <group string="Address">
+	                        <group string="Address">
 	                        	<field name="house_no"/>
 	                            <field name="street"/>
 	                            <field name="area"/>
 	                            <field name="city"/>
 	                            <field name="zip_code"/>
-	                        </group> -->
+	                        </group>
 	                    </page>
 	                    <page string="College Details">
 	                        <group>
@@ -119,7 +119,13 @@
 		<field name="model">student</field>
 		<field name="arch" type="xml">
 			<search string="Student search">
-				<field name="name"  filter_domain="['|',('name', 'ilike', self),('email', 'ilike',self)]"/>
+				<field name="email"/>		
+				<field name="name"/>		
+				<field name="gender"/>	
+				<filter string="Male" name="male" domain="[('gender','=','male')]"/>
+				<separator/>
+				<filter string="Female" name="female" domain="[('gender','=','female')]"/>
+				<filter string="Collage" name="collage_id" context="{'group_by':'collage_id'}"/>
 			</search>
 		</field>
 	</record>

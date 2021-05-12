@@ -51,6 +51,7 @@ class student(models.Model):
     def comput_total(self):
         for rec in self:
             rec.total=rec.maths + rec.physics + rec.chemistry
+            rec.avg_marks = rec.total/3
 
 class collage(models.Model):
     _name = 'collage'
@@ -67,12 +68,12 @@ class hobbies(models.Model):
 
     name = fields.Char(string="Name")
 
-# class student_address(models.Model):
-#     _inherit = 'student'
-#     _description = "student address inherit"
+class student_address(models.Model):
+    _inherit = 'student'
+    _description = "student address inherit"
 
-#     house_no = fields.Integer(string="House No")
-#     street = fields.Char(string="Street")
-#     area = fields.Char(string="area")
-#     city = fields.Char(string="city")
-#     zip_code = fields.Integer(string="zip_code")
+    house_no = fields.Integer(string="House No")
+    street = fields.Char(string="Street")
+    area = fields.Char(string="area")
+    city = fields.Char(string="city")
+    zip_code = fields.Integer(string="zip_code")

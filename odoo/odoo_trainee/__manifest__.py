@@ -4,7 +4,7 @@
     'category': 'Trainee Demo',
     'sequence': 5,
     'summary': 'Trainee demo module',
-    'depends': ['base'],
+    'depends': ['base','website'],
 
     'description': """
             module for trainee demo
@@ -13,6 +13,7 @@
 
     'data' : [
         'security/ir.model.access.csv',
+        'controllers/template.xml',
         # 'data/data.xml',
         'wizard/student_update_wizard_view.xml',
         'views/home.xml',

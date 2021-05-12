@@ -10,20 +10,26 @@
         <field name="binding_type">report</field>
     </record>
 
+<report
+        id="report_student_primary"
+        model="student"
+        string="Student Report Primary"
+        name="odoo_trainee.inherit_report_student_view_primary"
+        file="odoo_trainee.report_student"
+        report_type="qweb-pdf" 
+        attachment_use="True"/>
+
     <template id="report_student_view">
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
                 <div class="page">
                     <table class="table">
                         <thead>
-
                             <tr>
                                 <th>id</th>
                                 <th>name</th>
                                 <th>Mobile No</th>
-                                <th>Email id</th>
                                 <th>Birth date</th>
-                                <th>Address</th>
                                 <th>Collage Name</th>
                             </tr>
                         </thead>
@@ -33,9 +39,7 @@
                                         <td><t t-esc="doc.id"/></td>
                                         <td><t t-esc="doc.name"/></td>
                                         <td><t t-esc="doc.mobile_no"/></td>
-                                        <td><t t-esc="doc.email"/></td>
                                         <td><t t-esc="doc.birthday"/></td>
-                                        <td><t t-esc="doc.address"/></td>
                                         <td><t t-esc="doc.collage_id.name"/></td>
                                     </tr>
                                 <!-- </t> -->
@@ -46,4 +50,26 @@
         </t>
     </template>
 
+
+
+    <template id="inherit_report_student_view" inherit_id="report_student_view">
+        <xpath expr="//div[hasclass('page')]" position="inside">
+            <h2>Inside</h2>
+        </xpath>
+        <xpath expr="(//th)[1]" position="after">
+            <th scope="col">Gender</th>
+        </xpath>
+        <xpath expr="(//td)[1]" position="after">
+            <td align='center'><span t-field="doc.gender"/></td>
+        </xpath>
+    </template>
+
+    <template id="inherit_report_student_view_primary" inherit_id="report_student_view" primary="True">
+        <xpath expr="(//th)[1]" position="after">
+            <th scope="col">email</th>
+        </xpath>
+        <xpath expr="(//td)[1]" position="after">
+            <td align='center'><span t-field="doc.email"/></td>
+        </xpath>
+    </template>
 </odoo>
