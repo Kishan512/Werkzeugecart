@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <record id="engineer" model="engineer">
             <field name="role">engineer</field>
             <field name="email">kishan@gmail.com</field>
@@ -10,6 +10,7 @@
             <field name="address">Botad</field>
             <field name="specialist">mobile Repairing</field>   
             <field name="experience">3 years</field>   
+            <field name="rating">0</field>   
         </record>
         <record id="engineer1" model="engineer">
             <field name="role">engineer</field>
@@ -19,7 +20,8 @@
             <field name="password">12345</field>
             <field name="address">gadhada</field>
             <field name="specialist">software r3epairing</field>   
-            <field name="experience">5 years</field>   
+            <field name="experience">5 years</field>
+            <field name="rating">0</field>      
         </record>
         <record id="engineer2" model="engineer">
             <field name="role">engineer</field>
@@ -30,6 +32,7 @@
             <field name="address">surat</field>
             <field name="specialist">pc repairing</field>   
             <field name="experience">3 years</field>   
+            <field name="rating">0</field>   
         </record>
         <record id="engineer3" model="engineer">
             <field name="role">engineer</field>
@@ -40,6 +43,7 @@
             <field name="address">gandhinagar</field>
             <field name="specialist">electric Repairing</field>   
             <field name="experience">3 years</field>   
+            <field name="rating">0</field>   
         </record>
         <record id="engineer4" model="engineer">
             <field name="role">engineer</field>
@@ -50,6 +54,7 @@
             <field name="address">Botad</field>
             <field name="specialist">Repairing</field>   
             <field name="experience">10 years</field>   
+            <field name="rating">0</field>   
         </record>
     </data>
 

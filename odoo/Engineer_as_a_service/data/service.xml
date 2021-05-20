@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="service1" model="service">
+            <field name="name">Mobile Repairing</field>
+        </record>
+        <record id="service2" model="service">
+            <field name="name">Tablet Reapiring</field>
+        </record>
+        <record id="service3" model="service">
+            <field name="name">Laptop Reapiring</field>
+        </record>
+        <record id="service4" model="service">
+            <field name="name">PC Repairing</field>
+        </record>
+        <record id="service5" model="service">
+            <field name="name">AC Repairing</field>
+        </record>
+        <record id="service5" model="service">
+            <field name="name">TV Repairing</field>
+        </record>
+        <record id="service5" model="service">
+            <field name="name">Washing Machine Repairing</field>
+        </record>
+        <record id="service5" model="service">
+            <field name="name">Electric Repairing</field>
+        </record>
+    </data>
+
+</odoo>

@@ -42,5 +42,11 @@
             <field name="address">Botad</field>
         </record>
     </data>
+
+    <record id="rating" model="ratings">
+        <field name="engineer_id" ref="Engineer_as_a_service.engineer4"/>
+        <field name="client_id" ref="Engineer_as_a_service.client5"/>
+        <field name="rating">4</field>
+    </record>
     
 </odoo>

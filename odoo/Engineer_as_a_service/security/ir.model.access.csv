@@ -4,5 +4,6 @@ access_client,access_client,Engineer_as_a_service.model_client,Engineer_as_a_ser
 access_orders,access_orders,model_orders,base.group_user,1,1,1,1
 access_job_work_detail,access_job_work_detail,model_job_work_detail,base.group_user,1,1,1,1
 access_ratings,access_ratings,model_ratings,base.group_user,1,1,1,1 
+access_service,access_service,model_service,base.group_user,1,1,1,1 
 
 

@@ -16,6 +16,7 @@
         'security/ir.model.access.csv',
         'data/engineer.xml',
         'data/client.xml',
+        'data/service.xml',
         'controllers/template.xml',
         'controllers/assests.xml',
     ],

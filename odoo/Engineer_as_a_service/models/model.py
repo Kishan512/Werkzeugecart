@@ -13,7 +13,15 @@ class engineer(models.Model):
     address = fields.Char(string="Address")           
     specialist = fields.Char(string="specialist")
     experience  = fields.Char(string="experience")
+    rating = fields.Integer(string="rating")
  
+class service(models.Model):
+    _name = 'service'
+    _description = "service detail"
+
+    name = fields.Char(string="Name")
+    
+
 
 class client(models.Model):
     _name = 'client'

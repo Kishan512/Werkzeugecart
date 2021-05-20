@@ -49,6 +49,9 @@
                                        <button class="nav-link btn-warning mr-2" onClick="location.href='/home_client'">Home</button>
                                     </li>
                                     <li class="nav-item">
+                                            <button class="nav-link btn-warning mr-2" onClick="location.href='/service'">Service</button>
+                                    </li>
+                                    <li class="nav-item">
                                             <button class="nav-link btn-warning mr-2" onClick="location.href='/client_Engineer_list'">Engineers</button>
                                     </li>
                                     <li class="nav-item">
@@ -78,7 +81,7 @@
                                     <button class="nav-link btn-warning ml-3" onClick="location.href='/home'">Logout</button>
                                 </li>         
                             </t>
-                            <li style="margin-left: 700px;">
+                            <li style="margin-left: 600px;">
                                         <h5> <t t-esc="'Welcome  '+request.session.get('user_name')" /></h5>
                                     </li>
 
@@ -237,8 +240,12 @@
                                 </div>
                                  <div class="form-group" id="yup">
                                     <label for="Specialist">Specialist:</label>
-                                    <button type="button" t-on-click="addSpecialist()" class="btn btn-success">Add</button>
-                                    <input type="text" class="form-control" placeholder="Enter Specialist" name="specialist" id="specialist"/>
+                                    <select name="specialist" id="collage" class="form-control" placeholder="Enter Specialist">
+                                        <option value="">---Select Service---</option>
+                                        <t t-foreach="service" t-as="service">
+                                            <option value="Mobile Repairing"><t t-esc="service.name"/></option>
+                                        </t>
+                                    </select>   
                                 </div>
                                 <div class="form-group" id="yup">
                                     <label for="experience">Experience:</label>
@@ -315,8 +322,71 @@
         </t>
     </template>
 
+<!-- ..................................Service......................... -->
 
-    
+    <template id="service">
+        <style>
+
+        </style>
+        <script>
+            function myFunction(name){
+                alert(name)
+                  var x = document.getElementById('myDIV');
+                  if (x.style.display === 'none') {
+                    x.style.display = 'block';
+                  } else {
+                    x.style.display = 'none';
+                  }
+                }
+        </script>
+        <t t-call="web.layout">        
+        <t t-call="Engineer_as_a_service.header"/>
+            <div class="container">  
+                    <div class="mt-5 mb-5">
+                   <h1>Service list</h1> 
+                </div>
+
+                <div class="container">
+                        <ul class="list-group">
+                            <t t-foreach="service" t-as="service"> 
+                                <li class="list-group-item" t-on-click="myFunction(service.name)"><t t-esc="service.name"/>
+                                    <table class="table">
+                                    <tr class="list-group" id="myDIV" style="display:none;">
+                                        <t t-foreach="engineers" t-as="engineer">
+                                            <td class="list-group-item"><t t-esc="engineer.name"/></td>
+                                            <td class="list-group-item"><t t-esc="engineer.mobile_no"/></td>
+                                            <td class="list-group-item"><t t-esc="engineer.specialist"/></td>
+                                            <td class="list-group-item"><t t-esc="engineer.rating"/></td>
+                                            <td><a class="btn btn-danger text-white" t-att-href="'/book/%s/%s' % (engineer.id,request.session.get('user_id'))">Book</a></td>
+                                            <td><a class="btn btn-success" t-att-href="'/view_engineer_deatail/%s' % (engineer.id)">View</a></td>
+                                        </t>
+                                    </tr>
+                                    </table>
+                                </li>
+                            </t>
+                        </ul>
+                  </div>
+
+
+
+              <!--   <table class="table">
+                    <a href="#" class="list-group-item" onclick="myFunction()">Mobile Repairing</a>
+                            <tr class="list-group" style="display: none;">
+                                <td>Kishan Rathod</td>
+                            </tr>
+                    
+                    <a href="#" class="list-group-item">Laptop Repairing</a>
+                        <div class="list-group">
+                            <a href="#" class="list-group-item">Vishal Bhavasar</a>
+                            <a href="#" class="list-group-item">Shilesh Undaviya</a>
+                            <a href="#" class="list-group-item">Kishan Rathod</a>
+                        </div>
+            </table> -->
+            </div>
+            <t t-call="Engineer_as_a_service.footer"/>
+        </t>
+    </template>
+
 <!-- ..................................client Engineer list......................... -->
 
     <template id="client_Engineer_list">
@@ -343,14 +413,11 @@
                         <tbody>
                             <!-- <t t-foreach="state.data" t-as="i"> -->
                             <tr t-foreach="engineer_list" t-as="engineer">
-
                                         <td><t t-esc="engineer.id"/></td>
                                         <td><t t-esc="engineer.name"/></td>
                                         <td><t t-esc="engineer.mobile_no"/></td>
                                         <td><t t-esc="engineer.specialist"/></td>
-                                        <t t-foreach="rating" t-as="rate">
-                                            <td><t t-esc="rate"/></td>
-                                        </t>    
+                                        <td><t t-esc="engineer.rating"/></td>
                                         <td><a class="btn btn-danger text-white" t-att-href="'/book/%s/%s' % (engineer.id,request.session.get('user_id'))">Book</a></td>
                                         <td><a class="btn btn-success" t-att-href="'/view_engineer_deatail/%s' % (engineer.id)">View</a></td>
                                     </tr>
@@ -430,7 +497,7 @@
                             </tr>
                             <tr>
                                 <th>Ratings:</th>
-                                <td><t t-esc="rating"/></td>
+                                <td><t t-esc="data.rating"/></td>
                             </tr>
                         </t>
                        <!--  <t t-foreach="rating" t-as="=rating">
@@ -536,154 +603,158 @@
         
         </style>
         <t t-call="web.layout">        
-        <t t-call="Engineer_as_a_service.header"/>
-            <div class="container mt-5">
-                <div>
-                    <h3 class="container mb-3" style="font-size:36px;">Service Order Engineer Detail</h3>
-                </div>
-                <table class="table table-striped">
-                    <thead class="bg-dark text-white">
-                        <tr>
-                            <th data-field="key" scope="col" class="key">Key</th>
-                            <th data-field="value" scope="col">Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="order_list" t-as="order" t-key="task.id">
-                        <tr>    
-                            <td>Name</td>
-                            <td><t t-esc="order.engineer_id.name"/></td>
-                        </tr>
-                        <tr>
-                            <td>Mobile No</td>
-                            <td><t t-esc="order.engineer_id.mobile_no"/></td>
-                        </tr>
-                        <tr>
-                            <td>Order Date</td>
-                            <td>
-                                <t t-esc="order.create_date.day"/>/
-                                <t t-esc="order.create_date.month"/>/
-                                <t t-esc="order.create_date.year"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Order Time</td>
-                            <td>
-                                <t t-esc="order.create_date.hour"/>:
-                                <t t-esc="order.create_date.minute"/> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Specialist</td>
-                            <td><t t-esc="order.engineer_id.specialist"/></td>
-                        </tr>
-                        <tr>
-                            <td>experience</td>
-                            <td><t t-esc="order.engineer_id.experience"/></td>
-                        </tr>
-                        </t>
-                    </tbody>
-                </table>
-
-                <div>
-                    <h3 class="container mt-5 mb-3" style="font-size:36px;">Service Order Detail</h3>
-                </div>
-                <table class="table table-striped mt-2">
-                    <thead class="bg-dark text-white">
-                        <tr>
-                            <th data-field="key" scope="col" class="key">Key</th>
-                            <th data-field="value" scope="col">Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="product_detail" t-as="product">
+            <t t-call="Engineer_as_a_service.header"/>
+                <div class="container mt-5">
+                    <div>
+                        <h3 class="container mb-3" style="font-size:36px;">Service Order Engineer Detail</h3>
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="bg-dark text-white">
                             <tr>
-                                <td>Product Name</td>
-                                <td><t t-esc="product.product_name"/></td>
+                                <th data-field="key" scope="col" class="key">Key</th>
+                                <th data-field="value" scope="col">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="order_list" t-as="order" t-key="task.id">
+                            <tr>    
+                                <td>Name</td>
+                                <td><t t-esc="order.engineer_id.name"/></td>
                             </tr>
                             <tr>
-                                <td>Product Problem</td>
-                                <td><t t-esc="product.product_problem"/></td>
-                            </tr>    
+                                <td>Mobile No</td>
+                                <td><t t-esc="order.engineer_id.mobile_no"/></td>
+                            </tr>
+                            <tr>
+                                <td>Order Date</td>
+                                <td>
+                                    <t t-esc="order.create_date.day"/>/
+                                    <t t-esc="order.create_date.month"/>/
+                                    <t t-esc="order.create_date.year"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Order Time</td>
+                                <td>
+                                    <t t-esc="order.create_date.hour"/>:
+                                    <t t-esc="order.create_date.minute"/> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Specialist</td>
+                                <td><t t-esc="order.engineer_id.specialist"/></td>
+                            </tr>
+                            <tr>
+                                <td>experience</td>
+                                <td><t t-esc="order.engineer_id.experience"/></td>
+                            </tr>
+                            </t>
+                        </tbody>
+                    </table>
 
-                            <t t-foreach="order_list" t-as="order">
+                    <div>
+                        <h3 class="container mt-5 mb-3" style="font-size:36px;">Service Order Detail</h3>
+                    </div>
+                    <table class="table table-striped mt-2">
+                        <thead class="bg-dark text-white">
+                            <tr>
+                                <th data-field="key" scope="col" class="key">Key</th>
+                                <th data-field="value" scope="col">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="product_detail" t-as="product">
                                 <tr>
-                                    <td>Order Date</td>
-                                    <td>
-                                        <t t-esc="order.create_date.day"/>/
-                                        <t t-esc="order.create_date.month"/>/
-                                        <t t-esc="order.create_date.year"/>
-                                    </td>
+                                    <td>Product Name</td>
+                                    <td><t t-esc="product.product_name"/></td>
                                 </tr>
                                 <tr>
-                                    <td>Order Time</td>
-                                    <td>
-                                        <t t-esc="order.create_date.hour"/>:
-                                        <t t-esc="order.create_date.minute"/> 
-                                    </td>
-                                </tr>
+                                    <td>Product Problem</td>
+                                    <td><t t-esc="product.product_problem"/></td>
+                                </tr>    
+
+                                <t t-foreach="order_list" t-as="order">
+                                    <tr>
+                                        <td>Order Date</td>
+                                        <td>
+                                            <t t-esc="order.create_date.day"/>/
+                                            <t t-esc="order.create_date.month"/>/
+                                            <t t-esc="order.create_date.year"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Order Time</td>
+                                        <td>
+                                            <t t-esc="order.create_date.hour"/>:
+                                            <t t-esc="order.create_date.minute"/> 
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Order Status</td>
+                                        <td>
+                                            <t t-if="order.order_status==1">
+                                                Pending        
+                                            </t>
+                                            <t t-if="order.order_status==2">
+                                                Accepted
+                                            </t>
+                                            <t t-if="order.order_status==3">
+                                                 Delivered
+                                            </t> 
+                                            <t t-if="order.order_status==0">
+                                                Rejected
+                                            </t> 
+                                        </td>
+                                    </tr>
+                                </t>
                                 <tr>
-                                    <td>Order Status</td>
-                                    <td>
-                                        <t t-if="order.order_status==1">
-                                            Pending        
-                                        </t>
-                                        <t t-if="order.order_status==2">
-                                            Accepted
-                                        </t>
-                                        <t t-if="order.order_status==3">
-                                             Delivered
-                                        </t>   
-                                    </td>
+                                    <td>Product Pickup Address</td>
+                                    <td><t t-esc="product.job_address"/></td>
                                 </tr>
                             </t>
-                            <tr>
-                                <td>Product Pickup Address</td>
-                                <td><t t-esc="product.job_address"/></td>
-                            </tr>
-                        </t>
-                    </tbody>
-                </table>
-
-
-
-
-              
-
-
-
-                
-
-
-
-
-
-            </div>
-            <form t-attf-action="/rating" method="POST"> 
-                <t t-foreach="order_list" t-as="order" t-key="task.id">
-                    <input type="hidden" t-att-value="order_list.id" name="order_id"/> 
-                    <input type="hidden" t-att-value="order_list.engineer_id.id" name="engineer_id"/> 
-                    <input type="hidden" t-att-value="order_list.client_id.id" name="client_id"/> 
-                </t>
-                <h3 class="text-center" alt="Simple">Please give me a rate of my service</h3>
-                <div class="container">                         
-                           <input type="hidden" name=""/>
-                        <div class="form-group starrating risingstar d-flex justify-content-center flex-row-reverse">
-                            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star"></label>
-                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star"></label>
-                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star"></label>
-                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 star"></label>
-                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
-                        </div>
-                        <div class="form-group d-flex justify-content-center">
-                            <textarea class="rounded-0" id="exampleFormControlTextarea1" cols="30" rows="4" placeholder="Describe your experience.." name="feedback"></textarea>
-                        </div>
-                        <div class="form-group d-flex justify-content-center">
-                            <button type="submit" class="btn btn-dark" style="width:30%;">Post</button>
-                        </div>
+                        </tbody>
+                    </table>
                 </div>
-            </form>
-        <t t-call="Engineer_as_a_service.footer"/>
+                <t t-foreach="order_list" t-as="order">
+                    <t t-if="order.order_status==3">
+                        <t t-if="rating_id">
+                            <div class="container">
+                                <h3 class="text-center" alt="Simple">Thanks for your lovely feedback! &#128525;</h3>
+                            </div>
+                        </t>
+                        <t t-else="">    
+                            <form t-attf-action="/rating" method="POST"> 
+                                <t t-foreach="order_list" t-as="order" t-key="task.id">
+                                    <input type="hidden" t-att-value="order_list.id" name="order_id"/> 
+                                    <input type="hidden" t-att-value="order_list.engineer_id.id" name="engineer_id"/> 
+                                    <input type="hidden" t-att-value="order_list.client_id.id" name="client_id"/> 
+                                </t>
+                                <h3 class="text-center" alt="Simple">Please give me a rate of my service</h3>
+                                <div class="container">                         
+                                        <div class="form-group starrating risingstar d-flex justify-content-center flex-row-reverse">
+                                            <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star"></label>
+                                            <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star"></label>
+                                            <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star"></label>
+                                            <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 star"></label>
+                                            <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
+                                        </div>
+                                        <div class="form-group d-flex justify-content-center">
+                                            <textarea class="rounded-0" id="exampleFormControlTextarea1" cols="30" rows="4" placeholder="Describe your experience.." name="feedback"></textarea>
+                                        </div>
+                                        <div class="form-group d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-dark" style="width:30%;">Post</button>
+                                        </div>
+                                </div>
+                            </form>
+                        </t>
+                    </t>
+                    <t t-if="order.order_status==0">
+                        <div class="container">
+                                    <h3 class="text-center" alt="Simple">Sorry!! Engineer was rejected your order   &#128542;</h3>
+                                </div>
+                    </t>
+                </t>
+            <t t-call="Engineer_as_a_service.footer"/>
         </t>
     </template>
 
@@ -895,6 +966,13 @@
                         </t>
                     </tbody>
                 </table>
+                <div class="container rounded text-center">
+                Your Rating for this order :
+                <t t-foreach="rating" t-as="rate">
+                    <t t-esc="rate.rating"/>
+                </t>
+                </div>
+
                 <t t-foreach="order_detail" t-as="order">
                     <t t-if="order.order_status==1">
                         <a class="btn btn-success mr-4" t-att-href="'/job_status_change/%s/accept' % order.id">Accept</a>
@@ -903,6 +981,12 @@
                     <t t-if="order.order_status==2">
                         Click here to change the status to delivered:
                         <a class="btn btn-danger" t-att-href="'/job_status_change/%s/delivered' % order.id">Delivered</a>
+                    </t>
+                    <t t-if="order.order_status==3">
+                        <h3 class="container btn-success rounded text-center" style="width:50%">Delivered Successful &#128519;</h3>
+                    </t>
+                    <t t-if="order.order_status==0">
+                        <h3 class="container btn-danger rounded text-center" style="width:50%">This order is rejected &#128542;</h3>
                     </t>
                 </t>
 
