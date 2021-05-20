@@ -94,12 +94,19 @@ class Main(http.Controller):
         engineers = request.env['engineer'].search([])
         return request.render('Engineer_as_a_service.service',{'service':service,'engineers':engineers})
 
+        filter_by_service_engineer_list
+
+    @http.route('/service/filter_by_service_engineer_list/<string:service_name>', type="http")
+    def filter_by_service_engineer_list(self,service_name, **kwargs):
+        filter_engineer_list = request.env['engineer'].search([('specialist','=',service_name)])
+        return request.render('Engineer_as_a_service.filter_engineer_list',{'filter_engineer_lists' : filter_engineer_list,'service_name' : service_name})
+
     @http.route('/client_Engineer_list', type="http")
     def client_Engineer_list(self, **kwargs):
         engineer_list = request.env['engineer'].search([('role', '=', 'engineer')])
         return request.render('Engineer_as_a_service.client_Engineer_list',{'engineer_list' : engineer_list})
     
-    @http.route('/book/<int:engineer_id>/<int:client_id>', type="http")
+    @http.route('/client_Engineer_list/book/<int:engineer_id>/<int:client_id>', type="http")
     def book(self,engineer_id,client_id, **kwargs):
         return request.render('Engineer_as_a_service.book',{'engineer_id' : engineer_id, 'client_id' : client_id })
 
@@ -122,7 +129,7 @@ class Main(http.Controller):
 
        
 
-    @http.route('/view_engineer_deatail/<int:engineer_id>', type="http")
+    @http.route('/client_Engineer_list/view_engineer_deatail/<int:engineer_id>', type="http")
     def view_engineer_deatail(self,engineer_id, **kwargs):
         engineer_list = request.env['engineer'].browse(engineer_id)
         return request.render('Engineer_as_a_service.view_engineer_detail',{'engineer_list' : engineer_list})
@@ -133,7 +140,7 @@ class Main(http.Controller):
         order_list = request.env['orders'].search([('client_id', '=', request.session.get('user_id'))],order="create_date desc")
         return request.render('Engineer_as_a_service.orders',{'order_list':order_list})
 
-    @http.route('/view_order_deatail/<int:order_id>', type="http")
+    @http.route('/orders/view_order_deatail/<int:order_id>', type="http")
     def view_order_deatail(self,order_id, **kwargs):
         order_list = request.env['orders'].browse(order_id)
         product_detail = request.env['job_work_detail'].search([('order_id', '=', order_id)])
@@ -154,9 +161,7 @@ class Main(http.Controller):
             })
         rating_id = request.env['ratings'].search([('engineer_id', '=', int(kwargs.get("engineer_id")))])
         ratings = round(rating_id.cal_rating())
-        print(ratings)
         engineer_id = request.env['engineer'].browse(int(kwargs.get("engineer_id")))
-        print(engineer_id)
         if engineer_id:
             engineer_id.write({
                 'rating' : ratings

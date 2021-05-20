@@ -329,7 +329,7 @@
 
         </style>
         <script>
-            function myFunction(name){
+           <!--  function myFunction(name){
                 alert(name)
                   var x = document.getElementById('myDIV');
                   if (x.style.display === 'none') {
@@ -337,7 +337,7 @@
                   } else {
                     x.style.display = 'none';
                   }
-                }
+                } -->
         </script>
         <t t-call="web.layout">        
         <t t-call="Engineer_as_a_service.header"/>
@@ -346,7 +346,7 @@
                    <h1>Service list</h1> 
                 </div>
 
-                <div class="container">
+                <div class="container"><!-- 
                         <ul class="list-group">
                             <t t-foreach="service" t-as="service"> 
                                 <li class="list-group-item" t-on-click="myFunction(service.name)"><t t-esc="service.name"/>
@@ -364,29 +364,64 @@
                                     </table>
                                 </li>
                             </t>
-                        </ul>
-                  </div>
-
-
-
-              <!--   <table class="table">
-                    <a href="#" class="list-group-item" onclick="myFunction()">Mobile Repairing</a>
-                            <tr class="list-group" style="display: none;">
-                                <td>Kishan Rathod</td>
-                            </tr>
-                    
-                    <a href="#" class="list-group-item">Laptop Repairing</a>
-                        <div class="list-group">
-                            <a href="#" class="list-group-item">Vishal Bhavasar</a>
-                            <a href="#" class="list-group-item">Shilesh Undaviya</a>
-                            <a href="#" class="list-group-item">Kishan Rathod</a>
-                        </div>
-            </table> -->
+                        </ul> -->
+                    <div class="list-group">
+                        <t t-foreach="service" t-as="service"> 
+                            <a t-att-href="'/service/filter_by_service_engineer_list/%s' % service.name" class="list-group-item list-group-item-action btn btn-dark"><t t-esc="service.name"/></a>
+                        </t>
+                    </div>
+                </div>
             </div>
             <t t-call="Engineer_as_a_service.footer"/>
         </t>
     </template>
 
+<!-- ..................................Filter Engineer List......................... -->
+
+
+    <template id="filter_engineer_list">
+        <t t-call="web.layout">        
+        <t t-call="Engineer_as_a_service.header"/>
+            <div class="container">  
+                <div class="mt-5 mb-5">
+                   <h1><t t-esc="service_name"/> Service Engineers</h1> 
+                </div>
+                <div>
+                    <table class="table">
+                        <thead>
+
+                            <tr>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>Mobile No</th>
+                                <th>Specialist</th>
+                                <th>Ratings</th>
+                                <th>Action</th>
+                                <th>View</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <t t-foreach="state.data" t-as="i"> -->
+                            <t t-set="sr_no" t-value="1"/>
+                            <tr t-foreach="filter_engineer_lists" t-as="engineer">
+                                <td><t t-esc="sr_no"/></td>
+                                <td><t t-esc="engineer.name"/></td>
+                                <td><t t-esc="engineer.mobile_no"/></td>
+                                <td><t t-esc="engineer.specialist"/></td>
+                                <td><t t-esc="engineer.rating"/></td>
+                                <td><a class="btn btn-danger text-white" t-att-href="'/book/%s/%s' % (engineer.id,request.session.get('user_id'))">Book</a></td>
+                                <td><a class="btn btn-success" t-att-href="'/view_engineer_deatail/%s' % (engineer.id)">View</a></td>
+                                <t t-set="sr_no" t-value="sr_no+1"/>
+                            </tr>
+                                <!-- </t> -->
+                        </tbody>
+                    
+                    </table>
+                </div> 
+            </div>
+            <t t-call="Engineer_as_a_service.footer"/>
+        </t>
+    </template>
 <!-- ..................................client Engineer list......................... -->
 
     <template id="client_Engineer_list">
@@ -418,8 +453,8 @@
                                         <td><t t-esc="engineer.mobile_no"/></td>
                                         <td><t t-esc="engineer.specialist"/></td>
                                         <td><t t-esc="engineer.rating"/></td>
-                                        <td><a class="btn btn-danger text-white" t-att-href="'/book/%s/%s' % (engineer.id,request.session.get('user_id'))">Book</a></td>
-                                        <td><a class="btn btn-success" t-att-href="'/view_engineer_deatail/%s' % (engineer.id)">View</a></td>
+                                        <td><a class="btn btn-danger text-white" t-att-href="'/client_Engineer_list/book/%s/%s' % (engineer.id,request.session.get('user_id'))">Book</a></td>
+                                        <td><a class="btn btn-success" t-att-href="'/client_Engineer_list/view_engineer_deatail/%s' % (engineer.id)">View</a></td>
                                     </tr>
                                 <!-- </t> -->
                         </tbody>
@@ -561,7 +596,7 @@
                                         <t t-if="order.order_status==3">
                                             <td class="btn btn-success">Delivered</td>
                                         </t>
-                                        <td><a class="btn btn-outline-secondary" t-att-href="'/view_order_deatail/%s' % order.id">View</a></td>
+                                        <td><a class="btn btn-outline-secondary" t-att-href="'/orders/view_order_deatail/%s' % order.id">View</a></td>
                                     </tr>
                                     <t t-set="sr_no" t-value="sr_no+1"/>
                                 </t>
